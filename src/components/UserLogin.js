@@ -1,4 +1,5 @@
 import React from 'react';
+import userAuth from '../userAuth.js'
 
 class  UserLogin extends React.Component {
   
@@ -26,19 +27,27 @@ class  UserLogin extends React.Component {
   }
 
   handleSubmit(event) {
-   
     event.preventDefault();
+    userAuth.login(this.state.login, this.state.password)
+    .then(()=>{
+      this.props.history.push("/home");
+      window.location.reload();
+    });
+    
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>Login:</label>
-        <input value={this.state.login} onChange={this.handleLoginChange} />
-        <label>Password:</label>
-        <input value={this.state.password} onChange={this.handlePasswordChange} />
-        <input type="submit" value="Sing in" />
-      </form>
+      <div>
+        <div><h3>UserLogin</h3></div>
+        <form onSubmit={this.handleSubmit}>
+          <label>Login:</label>
+          <input value={this.state.login} onChange={this.handleLoginChange} />
+          <label>Password:</label>
+          <input value={this.state.password} onChange={this.handlePasswordChange} />
+          <input type="submit" value="Sign in" />
+        </form>
+      </div>
     );
   }
 };
