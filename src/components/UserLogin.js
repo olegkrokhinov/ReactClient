@@ -8,7 +8,8 @@ class  UserLogin extends React.Component {
 
     this.state = {
       login: '',
-      password: ''
+      password: '',
+      loginResultMessage: '',
     };
 
     this.handleLoginChange = this.handleLoginChange.bind(this);
@@ -30,9 +31,15 @@ class  UserLogin extends React.Component {
     event.preventDefault();
     userAuth.login(this.state.login, this.state.password)
     .then(()=>{
+      alert('userlogin submit');
       this.props.history.push("/home");
       window.location.reload();
-    });
+    })
+    .catch(error => {
+      this.setState({
+        loginResultMessage: 'UserLogin catch error: '+ error.message
+      });
+    })
     
   }
 
@@ -46,6 +53,13 @@ class  UserLogin extends React.Component {
           <label>Password:</label>
           <input value={this.state.password} onChange={this.handlePasswordChange} />
           <input type="submit" value="Sign in" />
+
+          {this.state.loginResultMessage && ( 
+              <div>
+                {this.state.loginResultMessage}
+              </div>
+          )}
+
         </form>
       </div>
     );

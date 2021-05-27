@@ -1,27 +1,21 @@
 
-const URL_AUTH = "http://localhost:4000/api/auth/";
+const URL_AUTH = "http://localhost:4000/auth/";
 
-const userAuth = {
-    getCurrentUser,
-    login,
-    logout,
-    register,  
-}
 
 const saveToLocalStorage = true; 
 
 function login(userLogin, userPassword) {
-    const body = {login: userLogin, password: userPassword};
+    const body = {userLogin: userLogin, userPassword: userPassword};
     return postUser('login', body, saveToLocalStorage);
 }
 
 function register(userLogin, userPassword){
-    const body = {login: userLogin, password: userPassword};
+    const body = {userLogin: userLogin, userPassword: userPassword};
     return postUser('signup', body, !saveToLocalStorage);
 }
 
 function logout(){
-    const body = {accessToken: JSON.parse(localStorage.getItem('user')).accessToken};
+    const body = {userAccessToken: JSON.parse(localStorage.getItem('user')).userAccessToken};
     localStorage.removeItem('user');
     return postUser('logout', body, !saveToLocalStorage);
 }
@@ -37,7 +31,7 @@ function accessTokenExpired(){
 }
 
 function saveUserToLocalStorage(user){
-    if (user.accessToken) {
+    if (user.userAccessToken) {
         localStorage.setItem("user", JSON.stringify(user));
     }
 }
@@ -45,7 +39,6 @@ function saveUserToLocalStorage(user){
 function postUser(authPath, authBody, saveToLocalStorage = false){
     
     return new Promise((resolve, reject)=>{
-        
         fetch(URL_AUTH + authPath, { 
             method: 'post', 
             body: JSON.stringify(authBody),  
@@ -58,6 +51,14 @@ function postUser(authPath, authBody, saveToLocalStorage = false){
         })
         .catch(reject);
     });
+}
+
+
+const userAuth = {
+    getCurrentUser,
+    login,
+    logout,
+    register,  
 }
 
 export default userAuth

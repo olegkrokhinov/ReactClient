@@ -29,18 +29,13 @@ class  UserRegister extends React.Component {
   }
 
   handleSubmit(event) {
-       event.preventDefault();
-       event.preventDefault();
+      event.preventDefault();
       userAuth.register(this.state.login, this.state.password)
       .then((json)=>{
         this.setState({
           registerResultMessage: 'User registered successfuly!', 
           registered: true
         })
-
-        //  this.setState({
-        //  registerResultMessage: '',
-        //  registered: false
 
         //this.props.history.push("/login");
         //window.location.reload();
@@ -75,13 +70,14 @@ class  UserRegister extends React.Component {
               <div>
                 {this.state.registerResultMessage}
               </div>)
+            
             || 
+            
             ((!this.state.registered) && 
               <div>
                 {this.state.registerResultMessage}
               </div>)
-
-                        
+                  
           )}
 
         </form>

@@ -1,5 +1,4 @@
-//import logo from './logo.svg';
-//import './App.css';
+
 import React from 'react';
 import { Switch, Route, Link } from "react-router-dom";
 
@@ -27,9 +26,7 @@ class  App extends React.Component {
     
     if (user) {
       this.setState({currentUser: user});
-    }
-
-    
+    } 
   }
 
   logOut(){
