@@ -18,6 +18,8 @@ class  Home extends React.Component {
       this.setState({currentUser: user});
     } 
   }
+
+ 
   
   render() {
     return (
@@ -25,7 +27,7 @@ class  Home extends React.Component {
         <h3>Home</h3>
         {this.state.currentUser && 
             <div>
-                Hello, {this.state.currentUser}
+                Hello, {this.state.currentUser.userLogin}
             </div>
         }
         {!this.state.currentUser && 

@@ -31,6 +31,8 @@ class  App extends React.Component {
 
   logOut(){
     userAuth.logOut();
+    this.setState({currentUser: ''});
+    
   }
   
   render(){
@@ -42,16 +44,10 @@ class  App extends React.Component {
               Home 
             </Link>
           
-              <li>
-                <Link to={"/"} >
-                  Home
-                </Link>
-              </li>
-          
             {this.state.currentUser ? (
               <div>
                 <li>
-                  <a href="/login" className="nav-link" onClick={this.logOut}>
+                  <a href="/" className="nav-link" onClick={this.logOut}>
                     LogOut
                   </a>
                 </li>

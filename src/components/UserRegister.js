@@ -36,7 +36,6 @@ class  UserRegister extends React.Component {
           registerResultMessage: 'User registered successfuly!', 
           registered: true
         })
-
         //this.props.history.push("/login");
         //window.location.reload();
       })

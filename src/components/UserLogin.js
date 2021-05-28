@@ -31,8 +31,7 @@ class  UserLogin extends React.Component {
     event.preventDefault();
     userAuth.login(this.state.login, this.state.password)
     .then(()=>{
-      alert('userlogin submit');
-      this.props.history.push("/home");
+      this.props.history.push("/");
       window.location.reload();
     })
     .catch(error => {

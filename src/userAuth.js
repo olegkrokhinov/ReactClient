@@ -14,7 +14,7 @@ function register(userLogin, userPassword){
     return postUser('signup', body, !saveToLocalStorage);
 }
 
-function logout(){
+function logOut(){
     const body = {userAccessToken: JSON.parse(localStorage.getItem('user')).userAccessToken};
     localStorage.removeItem('user');
     return postUser('logout', body, !saveToLocalStorage);
@@ -37,12 +37,13 @@ function saveUserToLocalStorage(user){
 }
 
 function postUser(authPath, authBody, saveToLocalStorage = false){
-    
     return new Promise((resolve, reject)=>{
         fetch(URL_AUTH + authPath, { 
-            method: 'post', 
+            method: 'POST', 
             body: JSON.stringify(authBody),  
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 
+                'Content-Type': 'application/json',                
+            }
         })
         .then(res => res.json())
         .then(json => {
@@ -57,7 +58,7 @@ function postUser(authPath, authBody, saveToLocalStorage = false){
 const userAuth = {
     getCurrentUser,
     login,
-    logout,
+    logOut,
     register,  
 }
 
