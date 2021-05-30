@@ -1,86 +1,78 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Link } from "react-router-dom";
 
 import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 import Home from './components/Home.js';
 
-import userAuth from './userAuth.js' 
+import userAuth from './userAuth.js';
+import { setObjectState} from './utils.js'
 
-class  App extends React.Component {
+
+export default function App(props) {
   
-  constructor(props) {
-    super(props);
+  const [appVars, setAppVars] = useState(
+    {
+      currentUser: ''
+    }) 
 
-    this.state = {
-      currentUser: '',
-    };
-
-    this.logOut = this.logOut.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
-  
-  componentDidMount() {
-    const user = userAuth.getCurrentUser();
-    
+  useEffect(()=>{
+    const user = userAuth.getCurrentUser();  
     if (user) {
-      this.setState({currentUser: user});
-    } 
-  }
+      setObjectState(setAppVars, { currentUser: user });
+    }
+  });
 
-  logOut(){
+  function logOut(){
     userAuth.logOut();
-    this.setState({currentUser: ''});
+    setObjectState(setAppVars, {currentUser: ''});
     
   }
   
-  render(){
-    return (
+  
+  return (
+    <div>
       <div>
-        <div>
-          <nav>
-            <Link to={"/"}>
-              Home 
-            </Link>
-          
-            {this.state.currentUser ? (
-              <div>
-                <li>
-                  <a href="/" className="nav-link" onClick={this.logOut}>
-                    LogOut
-                  </a>
-                </li>
-              </div>
-            ) : (
-              <div>
-                <li>
-                  <Link to={"/login"}>
-                    Login
-                  </Link>
-                </li>
+        <nav>
+          <Link to={"/"}>
+            Home 
+          </Link>
+        
+          {appVars.currentUser ? (
+            <div>
+              <li>
+                <a href="/" className="nav-link" onClick={logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div>
+              <li>
+                <Link to={"/login"}>
+                  Login
+                </Link>
+              </li>
 
-                <li>
-                  <Link to={"/register"}>
-                    Sign Up
-                  </Link>
-                </li>
-              </div>
-            )}
-          </nav>
+              <li>
+                <Link to={"/register"}>
+                  Sign Up
+                </Link>
+              </li>
+            </div>
+          )}
+        </nav>
 
-        </div>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={UserLogin} />
-            <Route exact path="/register" component={UserRegister} />
-          </Switch>
-        </div>
       </div>
+      <div>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={UserLogin} />
+          <Route exact path="/register" component={UserRegister} />
+        </Switch>
+      </div>
+    </div>
+  );
 
-    );
-  };
 }
-
-export default App;

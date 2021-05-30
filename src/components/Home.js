@@ -1,44 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import userAuth from '../userAuth';
+import { setObjectState } from '../utils.js'
 
-class  Home extends React.Component {
+export default function Home(props) {
   
-  constructor(props) {
-    super(props);
+  const [homeVars, setHomeVars] = useState(
+    {
+      currentUser: ''
+    }); 
 
-    this.state = {
-        currentUser: '',
-      };
-  }
+  useEffect(()=>{
+    const user = userAuth.getCurrentUser();  
+    if (user) { 
+      setObjectState(setHomeVars, { currentUser: user });
+    }
+  });
 
-  componentDidMount() {
-    const user = userAuth.getCurrentUser();
-    
-    if (user) {
-      this.setState({currentUser: user});
-    } 
-  }
-
- 
-  
-  render() {
-    return (
-      <div>
-        <h3>Home</h3>
-        {this.state.currentUser && 
-            <div>
-                Hello, {this.state.currentUser.userLogin}
-            </div>
-        }
-        {!this.state.currentUser && 
-            <div>
-                Hello Guest!
-            </div>
-        }
-      </div>
-    );
-  }
-};
-
-export default Home;
+  return (
+    <div>
+      <h3>Home</h3>
+      {homeVars.currentUser && 
+          <div>
+              Hello, {homeVars.currentUser.userLogin}
+          </div>
+      }
+      {!homeVars.currentUser && 
+          <div>
+              Hello Guest!
+          </div>
+      }
+    </div>
+  );
+  };
  

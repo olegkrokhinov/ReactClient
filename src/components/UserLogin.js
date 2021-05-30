@@ -1,69 +1,57 @@
-import React from 'react';
-import userAuth from '../userAuth.js'
-
-class  UserLogin extends React.Component {
+import React, { useState } from 'react';
+import userAuth from '../userAuth.js';
+import { setObjectState } from '../utils.js'
+ 
+export default function UserLogin(props) {
   
-  constructor(props) {
-    super(props);
-
-    this.state = {
+  const [userLoginVars, setUserLoginVars] =  useState(
+    {
       login: '',
       password: '',
-      loginResultMessage: '',
-    };
+      loginResultMessage: ''
+    });
 
-    this.handleLoginChange = this.handleLoginChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-  }
-
-  handleLoginChange(event) {
-    this.setState({login: event.target.value});
-    
+  function handleLoginChange(event) {
+    setObjectState(setUserLoginVars, { login: event.target.value });
   }
   
-  handlePasswordChange(event) {
-    this.setState({password: event.target.value});
+  function handlePasswordChange(event) {
+    setObjectState(setUserLoginVars, { password: event.target.value })
   }
 
-  handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    userAuth.login(this.state.login, this.state.password)
+    userAuth.login(userLoginVars.login, userLoginVars.password)
     .then(()=>{
-      this.props.history.push("/");
+      props.history.push("/");
       window.location.reload();
     })
     .catch(error => {
-      this.setState({
-        loginResultMessage: 'UserLogin catch error: '+ error.message
-      });
+      setObjectState(setUserLoginVars ,{ loginResultMessage:  'UserLogin catch error: '+ error.message });
     })
-    
   }
 
-  render() {
-    return (
-      <div>
-        <div><h3>UserLogin</h3></div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Login:</label>
-          <input value={this.state.login} onChange={this.handleLoginChange} />
-          <label>Password:</label>
-          <input value={this.state.password} onChange={this.handlePasswordChange} />
-          <input type="submit" value="Sign in" />
+  return (
+    <div>
+      <div><h3>UserLogin</h3></div>
+      <form onSubmit={handleSubmit}>
+        <label>Login:</label>
+        <input value={userLoginVars.login} onChange={handleLoginChange} />
+        <label>Password:</label>
+        <input value={userLoginVars.password} onChange={handlePasswordChange} />
+        <input type="submit" value="Sign in" />
 
-          {this.state.loginResultMessage && ( 
-              <div>
-                {this.state.loginResultMessage}
-              </div>
-          )}
+        {userLoginVars.loginResultMessage && ( 
+            <div>
+              {userLoginVars.loginResultMessage}
+            </div>
+        )}
 
-        </form>
-      </div>
-    );
-  }
+      </form>
+    </div>
+  );
+  
 };
 
-export default UserLogin;
+
  
