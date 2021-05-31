@@ -1,41 +1,32 @@
 import React, { useState } from 'react';
 import userAuth from '../userAuth.js'
-import { setObjectState } from '../utils.js'
+//import { setObjectState } from '../utils.js'
 
 export default function UserRegister (props) {
   
-
-  const [userRegisterVars, setUserRegisterVars] = useState(
-    {
-      login: '',
-      password: '',
-      registerResultMessage: '',
-      registered: false,
-    });
+  const [login, setLogin] = useState(''); 
+  const [password, setPassword] = useState(''); 
+  const [registerResultMessage, setRegisterResultMessage] = useState(''); 
+  const [registered, setRegistered] = useState(false); 
     
   function handleLoginChange(event) {
-    setObjectState(setUserRegisterVars, {login: event.target.value});    
+    setLogin(event.target.value);    
   }
   
   function handlePasswordChange(event) {
-    setObjectState(setUserRegisterVars, {password: event.target.value});    
+    setPassword(event.target.value);    
   }
 
   function handleSubmit(event) {
       event.preventDefault();
-      userAuth.register(userRegisterVars.login, userRegisterVars.password)
+      userAuth.register(login, password)
       .then((json)=>{
-        setObjectState(setUserRegisterVars, 
-        {
-          registerResultMessage: 'User registered successfuly!', 
-          registered: true
-        })
+        setRegisterResultMessage('User registered successfuly!'); 
+        setRegistered(true);
       })
       .catch(error => {
-        this.setObjectState(setUserRegisterVars, {
-          registerResultMessage: 'UserRegister catch error: '+ error.message,
-          registered: false
-        });
+        setRegisterResultMessage('UserRegisuserRegisterVars.ter catch error: '+ error.message); 
+        setRegistered(false);
       })
   }
 
@@ -44,28 +35,28 @@ return (
     <div><h3>UserRegister</h3></div>
     <form onSubmit={handleSubmit}>
       
-      {!userRegisterVars.registered &&
+      {!registered &&
       <div>
         <label>Login:</label>
-        <input value={userRegisterVars.login} onChange={handleLoginChange} />
+        <input value={login} onChange={handleLoginChange} />
         <label>Password:</label>
-        <input value={userRegisterVars.password} onChange={handlePasswordChange} />
+        <input value={password} onChange={handlePasswordChange} />
         <input type="submit" value="Sign up" />
       </div>
       }
 
-      {userRegisterVars.registerResultMessage && (
+      {registerResultMessage && (
         
-        ((userRegisterVars.registered) && 
+        ((registered) && 
           <div>
-            {userRegisterVars.registerResultMessage}
+            {registerResultMessage}
           </div>)
         
         || 
         
-        ((!userRegisterVars.registered) && 
+        ((!registered) && 
           <div>
-            {userRegisterVars.registerResultMessage}
+            {registerResultMessage}
           </div>)
               
       )}

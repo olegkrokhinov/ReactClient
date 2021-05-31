@@ -12,21 +12,18 @@ import { setObjectState} from './utils.js'
 
 export default function App(props) {
   
-  const [appVars, setAppVars] = useState(
-    {
-      currentUser: ''
-    }) 
+  const [currentUser, setCurrentUser] = useState(''); 
 
   useEffect(()=>{
     const user = userAuth.getCurrentUser();  
     if (user) {
-      setObjectState(setAppVars, { currentUser: user });
+      setCurrentUser(user);
     }
   });
 
   function logOut(){
     userAuth.logOut();
-    setObjectState(setAppVars, {currentUser: ''});
+    setCurrentUser('');
     
   }
   
@@ -39,7 +36,7 @@ export default function App(props) {
             Home 
           </Link>
         
-          {appVars.currentUser ? (
+          {currentUser ? (
             <div>
               <li>
                 <a href="/" className="nav-link" onClick={logOut}>

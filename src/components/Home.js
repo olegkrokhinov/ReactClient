@@ -4,27 +4,25 @@ import { setObjectState } from '../utils.js'
 
 export default function Home(props) {
   
-  const [homeVars, setHomeVars] = useState(
-    {
-      currentUser: ''
-    }); 
+  
+  const [currentUser, setCurrentUser] = useState(''); 
 
   useEffect(()=>{
     const user = userAuth.getCurrentUser();  
-    if (user) { 
-      setObjectState(setHomeVars, { currentUser: user });
+    if (user) {
+      setCurrentUser(user);
     }
   });
 
   return (
     <div>
       <h3>Home</h3>
-      {homeVars.currentUser && 
+      {currentUser && 
           <div>
-              Hello, {homeVars.currentUser.userLogin}
+              Hello, {currentUser.userLogin}
           </div>
       }
-      {!homeVars.currentUser && 
+      {!currentUser && 
           <div>
               Hello Guest!
           </div>

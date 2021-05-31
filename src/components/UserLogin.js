@@ -1,33 +1,35 @@
 import React, { useState } from 'react';
 import userAuth from '../userAuth.js';
-import { setObjectState } from '../utils.js'
+//import { setObjectState } from '../utils.js'
  
 export default function UserLogin(props) {
   
-  const [userLoginVars, setUserLoginVars] =  useState(
-    {
-      login: '',
-      password: '',
-      loginResultMessage: ''
-    });
+
+  const [login, setLogin] = useState(''); 
+  const [password, setPassword] = useState(''); 
+  const [loginResultMessage, setLoginResultMessage] = useState(''); 
+  
+    
+    
+  
 
   function handleLoginChange(event) {
-    setObjectState(setUserLoginVars, { login: event.target.value });
+    setLogin(event.target.value);
   }
   
   function handlePasswordChange(event) {
-    setObjectState(setUserLoginVars, { password: event.target.value })
+    setPassword(event.target.value);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    userAuth.login(userLoginVars.login, userLoginVars.password)
+    userAuth.login(login, password)
     .then(()=>{
       props.history.push("/");
       window.location.reload();
     })
     .catch(error => {
-      setObjectState(setUserLoginVars ,{ loginResultMessage:  'UserLogin catch error: '+ error.message });
+      setLoginResultMessage('UserLogin catch error: '+ error.message);
     })
   }
 
@@ -36,14 +38,14 @@ export default function UserLogin(props) {
       <div><h3>UserLogin</h3></div>
       <form onSubmit={handleSubmit}>
         <label>Login:</label>
-        <input value={userLoginVars.login} onChange={handleLoginChange} />
+        <input value={login} onChange={handleLoginChange} />
         <label>Password:</label>
-        <input value={userLoginVars.password} onChange={handlePasswordChange} />
+        <input value={password} onChange={handlePasswordChange} />
         <input type="submit" value="Sign in" />
 
-        {userLoginVars.loginResultMessage && ( 
+        {loginResultMessage && ( 
             <div>
-              {userLoginVars.loginResultMessage}
+              {loginResultMessage}
             </div>
         )}
 
