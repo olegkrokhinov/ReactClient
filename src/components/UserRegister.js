@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import userAuth from '../userAuth.js'
-//import { setObjectState } from '../utils.js'
 
 export default function UserRegister (props) {
   

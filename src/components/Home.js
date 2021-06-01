@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import userAuth from '../userAuth';
-import { setObjectState } from '../utils.js'
 
 export default function Home(props) {
-  
-  
-  const [currentUser, setCurrentUser] = useState(''); 
-
-  useEffect(()=>{
-    const user = userAuth.getCurrentUser();  
-    if (user) {
-      setCurrentUser(user);
-    }
-  });
+    
+  const [currentUser, setCurrentUser] = useState(()=>{
+    return userAuth.getCurrentUser();
+  }); 
 
   return (
     <div>

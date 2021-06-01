@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import userAuth from '../userAuth.js';
-//import { setObjectState } from '../utils.js'
  
 export default function UserLogin(props) {
   
-
   const [login, setLogin] = useState(''); 
   const [password, setPassword] = useState(''); 
   const [loginResultMessage, setLoginResultMessage] = useState(''); 
   
-    
-    
-  
-
   function handleLoginChange(event) {
     setLogin(event.target.value);
   }

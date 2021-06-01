@@ -7,26 +7,17 @@ import UserRegister from './components/UserRegister.js';
 import Home from './components/Home.js';
 
 import userAuth from './userAuth.js';
-import { setObjectState} from './utils.js'
-
 
 export default function App(props) {
   
-  const [currentUser, setCurrentUser] = useState(''); 
-
-  useEffect(()=>{
-    const user = userAuth.getCurrentUser();  
-    if (user) {
-      setCurrentUser(user);
-    }
-  });
+  const [currentUser, setCurrentUser] = useState(()=>{
+    return userAuth.getCurrentUser();
+  });  
 
   function logOut(){
     userAuth.logOut();
     setCurrentUser('');
-    
   }
-  
   
   return (
     <div>
