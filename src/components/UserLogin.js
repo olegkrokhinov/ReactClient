@@ -18,7 +18,8 @@ export default function UserLogin(props) {
   function handleSubmit(event) {
     event.preventDefault();
     userAuth.login(login, password)
-    .then(()=>{
+    .then((user)=>{
+      props.setCurrentUser(user);
       props.history.push("/");
       window.location.reload();
     })

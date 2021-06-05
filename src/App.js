@@ -1,10 +1,11 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route, Link } from "react-router-dom";
 
 import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 import Home from './components/Home.js';
+import UsersList from './components/UsersList'
 
 import userAuth from './userAuth.js';
 
@@ -17,15 +18,23 @@ export default function App(props) {
   function logOut(){
     userAuth.logOut();
     setCurrentUser('');
+
   }
   
   return (
     <div>
       <div>
         <nav>
-          <Link to={"/"}>
-            Home 
-          </Link>
+          <li>
+            <Link to={"/"}>
+              Home 
+            </Link>
+          </li>
+          <li>
+            <Link to={"/users"}>
+              Users
+            </Link>
+          </li>
         
           {currentUser ? (
             <div>
@@ -34,6 +43,7 @@ export default function App(props) {
                   LogOut
                 </a>
               </li>
+              
             </div>
           ) : (
             <div>
@@ -55,9 +65,14 @@ export default function App(props) {
       </div>
       <div>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={UserLogin} />
-          <Route exact path="/register" component={UserRegister} />
+          <Route exact path="/" 
+            render = { props => <Home currentUser = {currentUser} setCurrentUser = {setCurrentUser} {...props}/>} />
+          <Route exact path="/login" 
+            render = {props => <UserLogin currentUser = {currentUser} setCurrentUser = {setCurrentUser} {...props}/>} />
+          <Route exact path="/register" 
+            component={UserRegister} />
+          <Route exact path="/users" 
+            render = {props => <UsersList currentUser = {currentUser} setCurrentUser = {setCurrentUser} {...props}/>} />
         </Switch>
       </div>
     </div>

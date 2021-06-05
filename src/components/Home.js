@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import userAuth from '../userAuth';
+import React from 'react';
 
-export default function Home(props) {
+export default function Home({currentUser, setCurrentUser},  ...props) {
     
-  const [currentUser, setCurrentUser] = useState(()=>{
-    return userAuth.getCurrentUser();
-  }); 
-
   return (
     <div>
       <h3>Home</h3>
@@ -19,6 +14,7 @@ export default function Home(props) {
           <div>
               Hello Guest!
           </div>
+
       }
     </div>
   );
