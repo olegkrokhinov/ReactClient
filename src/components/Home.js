@@ -2,12 +2,18 @@ import React from 'react';
 
 export default function Home({currentUser, setCurrentUser},  ...props) {
     
+console.log(currentUser);
+
   return (
     <div>
       <h3>Home</h3>
       {currentUser && 
           <div>
-              Hello, {currentUser.userLogin}
+              <div>Hello, {currentUser.userLogin}!</div>
+              <div>User roles: </div> 
+              {currentUser.userRoles.map((role, index)=>{
+                 return <div>{role.name}</div> 
+              })}
           </div>
       }
       {!currentUser && 
