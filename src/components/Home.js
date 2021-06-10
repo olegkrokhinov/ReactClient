@@ -1,44 +1,28 @@
 import React from 'react';
-import userAuth from '../userAuth';
 
-class  Home extends React.Component {
-  
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        currentUser: '',
-      };
-  }
-
-  componentDidMount() {
-    const user = userAuth.getCurrentUser();
+export default function Home({currentUser, setCurrentUser},  ...props) {
     
-    if (user) {
-      this.setState({currentUser: user});
-    } 
-  }
+console.log(currentUser);
 
- 
-  
-  render() {
-    return (
-      <div>
-        <h3>Home</h3>
-        {this.state.currentUser && 
-            <div>
-                Hello, {this.state.currentUser.userLogin}
-            </div>
-        }
-        {!this.state.currentUser && 
-            <div>
-                Hello Guest!
-            </div>
-        }
-      </div>
-    );
-  }
-};
+  return (
+    <div>
+      <h3>Home</h3>
+      {currentUser && 
+          <div>
+              <div>Hello, {currentUser.userLogin}!</div>
+              <div>User roles: </div> 
+              {currentUser.userRoles.map((role, index)=>{
+                 return <div>{role.name}</div> 
+              })}
+          </div>
+      }
+      {!currentUser && 
+          <div>
+              Hello Guest!
+          </div>
 
-export default Home;
+      }
+    </div>
+  );
+  };
  
