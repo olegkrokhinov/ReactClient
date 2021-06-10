@@ -4,32 +4,27 @@ const URL = "http://localhost:4000/";
 
 export default function UserList({currentUser, setCurrentUser},  ...props) {
    
-  let contentInit = (
-    <div>
-      Getting a list of users from server.Please wait ...
-    </div>
-  );
-  
-  const [content, setContent] = useState(contentInit);
-  const [userListRendered, setUserListRendered] = useState(false);
-  
-  useEffect(()=>{
-     
-    getUsers('users', (currentUser && currentUser.userAccessToken) || 'no token')
-      .then (users => {
-        setContent(renderUsersList(users));
-        setUserListRendered(true);
-      })
-      .catch(err => {
-        setContent(renderErrorMessage(err));
-        setUserListRendered(true);
-      })
+  const [usersList, setUsersList] = useState(<div> Getting a list of users from server.Please wait ...</div>);
+  const [error, setError] = useState('');
 
-  }, [userListRendered]);
+  useEffect(()=>{
+
+    getUsers('users', (currentUser && currentUser.userAccessToken) || 'no token')
+    .then (users => {
+      setUsersList(renderUsersListAsArr(users));
+    })
+    .catch(err => {
+      setError(renderErrorMessage(err));
+    })     
+
+  }, []);
       
   return  <div>
            <div>List of DB users:</div>    
-           <div>{content}</div>
+           { !error 
+               ? <div>{usersList}</div>
+               : <div>{error}</div>
+           }
           </div>
  }
 
@@ -55,7 +50,7 @@ function checkHtppError(res){
   }; 
 };
 
-function renderUsersList (users){
+function renderUsersListAsArr (users){
   let render = [];
   for (let key in users){
     render.push(<div>{users[key].login}</div>);
