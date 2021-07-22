@@ -2,11 +2,9 @@ import React from 'react';
 
 export default function Home({currentUser, setCurrentUser},  ...props) {
     
-console.log(currentUser);
-
   return (
     <div>
-      <h3>Home</h3>
+      <h3>Home page</h3>
       {currentUser && 
           <div>
               <div>Hello, {currentUser.userLogin}!</div>
@@ -24,5 +22,5 @@ console.log(currentUser);
       }
     </div>
   );
-  };
+};
  

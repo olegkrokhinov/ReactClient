@@ -6,14 +6,18 @@ import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 import Home from './components/Home.js';
 import UsersList from './components/UsersList'
+import ToysList from './components/ToysList'
+import Toy from './components/Toy'
 
 import userAuth from './userAuth.js';
 
 export default function App(props) {
   
   const [currentUser, setCurrentUser] = useState(()=>{
-    return userAuth.getCurrentUser();
-  });  
+    return userAuth.getCurrentUser();});  
+
+  const [selectedToy, setSelectedToy] = useState('');    
+
 
   function logOut(){
     userAuth.logOut();
@@ -22,7 +26,9 @@ export default function App(props) {
   }
   
   return (
+    
     <div>
+      <p>selectedToy = {selectedToy}</p>
       <div>
         <nav>
           <li>
@@ -33,6 +39,16 @@ export default function App(props) {
           <li>
             <Link to={"/users"}>
               Users
+            </Link>
+          </li>
+          <li>
+            <Link to={"/toys"}>
+              Toys
+            </Link>
+          </li>
+          <li>
+            <Link to={"/addToy"}>
+              add Toy
             </Link>
           </li>
         
@@ -73,7 +89,15 @@ export default function App(props) {
             component={UserRegister} />
           <Route exact path="/users" 
             render = {props => <UsersList currentUser = {currentUser} setCurrentUser = {setCurrentUser} {...props}/>} />
+          <Route exact path="/toys" 
+            render = {props => <ToysList currentUser = {currentUser} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy} {...props}/>} />
+          <Route exact path="/addToy" 
+            render = {props => <Toy currentUser = {currentUser} selectedToy = {selectedToy} {...props}/>} />
+          <Route exact path="/editToy" 
+            render = {props => <Toy currentUser = {currentUser} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy} {...props}/>} />
         </Switch>
+        
+        
       </div>
     </div>
   );
