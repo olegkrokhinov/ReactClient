@@ -21,7 +21,6 @@ export default function UserLogin(props) {
     .then((user)=>{
       props.setCurrentUser(user);
       props.history.push("/");
-      window.location.reload();
     })
     .catch(error => {
       setLoginResultMessage('UserLogin catch error: '+ error.message);

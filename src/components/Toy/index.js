@@ -1,17 +1,17 @@
 import React, { useState, useRef} from 'react';
 import urljoin from 'url-join';
 
-const URL = "http://localhost:4000/";
-const URL_Toys = "http://localhost:4000/toys/";
+const URL_home = "http://localhost:4000/";
+const URL_toys = "http://localhost:4000/toys/";
 
-export default function Toy(props) {
+export default function Toy({currentUser, selectedToy, ...props}) {
   
-  const [name, setName] = useState(props.selectedToy.name); 
-  const [description, setDescription] = useState(props.selectedToy.description); 
+  const [name, setName] = useState(selectedToy.name); 
+  const [description, setDescription] = useState(selectedToy.description); 
   const [saveItemResultMessage, setSaveItemResultMessage] = useState(''); 
 
   const [toyImageFile, setToyImageFile] = useState('');  
-  const [toyImagePreviewUrl, setToyImagePreviewUrl] = useState( (!props.selectedToy.imageUploadPath) || urljoin(URL, props.selectedToy.imageUploadPath));  
+  const [toyImagePreviewUrl, setToyImagePreviewUrl] = useState( (!selectedToy.imageUploadPath) || urljoin(URL_home, selectedToy.imageUploadPath));  
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -40,20 +40,17 @@ export default function Toy(props) {
     formData.append('toyImageFile', toyImageFile);
     formData.append('toyName', name);
     formData.append('toyDescription', description);
-
-    let method = {
-      false: 'PUT',
-      true: 'POST'
-    };
-    props.setSelectedToy('');
-        return new Promise((resolve, reject)=>{
-        fetch(URL_Toys, { 
-            method: method[!props.selectedToy._id], 
-            body: formData,  
-        })
-        .then(res => res.json())
-        .then(json => resolve(json))        
-        .catch(reject); 
+    
+    return new Promise((resolve, reject)=>{
+      fetch(URL_toys, { 
+          method: 'POST',
+          body: formData, 
+          headers: { Authorization: currentUser.userAccessToken }, 
+      })
+      //.then(res => checkHtppError(res))
+      .then(res => res.json())
+      .then(json => resolve(json))        
+      .catch(reject); 
     })
   };
 
@@ -62,7 +59,6 @@ export default function Toy(props) {
     saveItem()
     .then((item)=>{
       props.history.push("/toys");
-      window.location.reload();
     })
     .catch(error => {
       setSaveItemResultMessage('Save item catch error: '+ error.message);
@@ -79,7 +75,7 @@ export default function Toy(props) {
         <input name="description" value={description} onChange={handleDescriptionChange} />
         <label>Toy image:</label>
         <input name="image" type="file" onChange={handleToyImageChange} />
-        <img src={toyImagePreviewUrl} alt="---"></img>
+        <img src={toyImagePreviewUrl} height='200' weight='200' alt="---"></img>
 
         <input type="submit" value="Save" />
 

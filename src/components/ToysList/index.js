@@ -53,7 +53,7 @@ function checkHtppError(res){
 function renderListAsArr (list, selectedToy, setSelectedToy, props){
   let render = [];
   for (let key in list){
-    render.push(<ToysListElement toy = {list[key]} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy} {...props}/>);
+    render.push(<ToysListElement {...props} toy = {list[key]} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy} />);
   };  
   return render;       
 }
