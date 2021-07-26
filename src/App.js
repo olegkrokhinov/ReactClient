@@ -5,18 +5,13 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 import Home from './components/Home.js';
-import UsersList from './components/UsersList'
-import ToysList from './components/ToysList'
-import Toy from './components/Toy'
 import userAuth from './userAuth.js';
+import Items from './components/Items'
 
 export default function App(props) {
   
   const [currentUser, setCurrentUser] = useState(()=>{
     return userAuth.getCurrentUser();});  
-
-  const [selectedToy, setSelectedToy] = useState('');    
-
 
   function logOut(){
     userAuth.logOut();
@@ -25,9 +20,7 @@ export default function App(props) {
   }
   
   return (
-    <BrowserRouter>
     <div>
-      <p>selectedToy = {selectedToy} </p>
       <div>
         <nav>
           <li>
@@ -36,21 +29,11 @@ export default function App(props) {
             </Link>
           </li>
           <li>
-            <Link to={"/users"}>
-              Users
+            <Link to={"/items"}>
+              Items
             </Link>
           </li>
-          <li>
-            <Link to={"/toys"}>
-              Toys
-            </Link>
-          </li>
-          <li>
-            <Link to={"/addToy"}>
-              add Toy
-            </Link>
-          </li>
-        
+                  
           {currentUser ? (
             <div>
               <li>
@@ -89,25 +72,15 @@ export default function App(props) {
           <Route exact path="/register"
              render={ (props) => <UserRegister {...props} />}>
           </Route>
-          <Route exact path="/users"
-             render={ (props) => <UsersList {...props} currentUser = {currentUser} setCurrentUser = {setCurrentUser} />}>
-          </Route>
-          <Route exact path="/toys"
-             render={ (props) => <ToysList {...props} currentUser = {currentUser} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy}/>}>
-          </Route>
-          <Route exact path="/addToy"
-            render={ (props) => <Toy {...props} currentUser = {currentUser} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy} />}>
-          </Route>
-          <Route exact path="/editToy"
-            render={ (props) => <Toy {...props} currentUser = {currentUser} selectedToy = {selectedToy} setSelectedToy = {setSelectedToy} />}>
+          <Route exact path="/Items"
+             render={ (props) => <Items currentUser = {currentUser} {...props}/>}>
           </Route>
         </Switch>
         
         
       </div>
     </div>
-    </BrowserRouter>    
-    
+  
   );
 
 }
