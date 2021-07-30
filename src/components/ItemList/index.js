@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ItemsListElement from '../ItemListElement'
 
+const URL_HOME = "http://localhost:4000/";
+const URL_ITEMS = "http://localhost:4000/items/";
 
-const URL = "http://localhost:4000/";
-
-export default function ItemsList({currentUser, ...props}) {
+export default function ItemsList(
+    {currentUser, 
+    selectedItem, 
+    setSelectedItem, 
+    setItemMode, 
+    itemListModifyed, 
+    setItemlistModifyed, 
+    ...props}) {
   
   const [list, setList] = useState(<div> Getting a list of items from server.Please wait ...</div>);
   const [error, setError] = useState('');
@@ -17,16 +24,37 @@ export default function ItemsList({currentUser, ...props}) {
     .catch(err => {
       setError(renderErrorMessage(err));
     })     
-  }, []);
+  }, [itemListModifyed]);
 
   function onEditHandler(event){
-    props.history.push('/editItem/'+event.target.value)
+    setSelectedItem(event.target.value);
+    setItemMode('edit');
   }
   
   function onDeleteHandler(event){
-    props.history.push('/deleteItem/'+event.target.value)  
+    deleteItem(event.target.value)
+    .then(()=>{
+        setItemlistModifyed((value)=>(!value));
+        setSelectedItem('');
+        setItemMode('view') })
+    .catch()
   }
  
+  function deleteItem(itemId){
+    const options = { 
+      method: 'DELETE', 
+      headers: {'Authorization': currentUser.userAccessToken} 
+    }
+    
+    return new Promise((resolve, reject)=>{
+      fetch(URL_ITEMS + itemId, options)
+      .then(res => checkHtppError(res))
+      .then(res => res.json())
+      .then(json => resolve(json))        
+      .catch(reject); 
+    })
+  }
+
   function renderListAsArr (list, props){
     let render = [];
     for (let key in list){
@@ -47,6 +75,27 @@ export default function ItemsList({currentUser, ...props}) {
     );
   }
 
+  function getList(path, userAccessToken){
+    return new Promise((resolve, reject)=>{
+        fetch(URL_HOME + path, { 
+            method: 'GET',   
+            headers: { Authorization: userAccessToken }
+        })
+        .then(res => checkHtppError(res))
+        .then(res => resolve(res.json()))
+        .catch(reject);
+    });
+  }
+    
+  function checkHtppError(res){
+    if (res.ok) {
+      return res;
+    } else {
+      let message = `Error ${res.status}: ${res.statusText}`;
+      throw new Error(message)
+    }; 
+  };
+
   return  <div>
             <div>List of Items:</div>  
             { !error 
@@ -55,25 +104,4 @@ export default function ItemsList({currentUser, ...props}) {
             }
           </div>
   }
-
-function getList(path, userAccessToken){
-  return new Promise((resolve, reject)=>{
-      fetch(URL + path, { 
-          method: 'GET',   
-          headers: { Authorization: userAccessToken }
-      })
-      .then(res => checkHtppError(res))
-      .then(res => resolve(res.json()))
-      .catch(reject);
-  });
-}
-  
-function checkHtppError(res){
-  if (res.ok) {
-    return res;
-  } else {
-    let message = `Error ${res.status}: ${res.statusText}`;
-    throw new Error(message)
-  }; 
-};
 

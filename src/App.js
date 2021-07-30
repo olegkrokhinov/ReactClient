@@ -9,23 +9,23 @@ import userAuth from './userAuth.js';
 import Items from './components/Items'
 
 export default function App(props) {
-  
-  const [currentUser, setCurrentUser] = useState(()=>{
-    return userAuth.getCurrentUser();});  
 
+  const [currentUser, setCurrentUser] = useState(()=>{
+    return userAuth.getCurrentUser();});
+ 
   function logOut(){
     userAuth.logOut();
     setCurrentUser('');
 
   }
-  
+
   return (
     <div>
       <div>
         <nav>
           <li>
             <Link to={"/"}>
-              Home 
+              Home
             </Link>
           </li>
           <li>
@@ -33,7 +33,7 @@ export default function App(props) {
               Items
             </Link>
           </li>
-                  
+
           {currentUser ? (
             <div>
               <li>
@@ -41,7 +41,7 @@ export default function App(props) {
                   LogOut
                 </a>
               </li>
-              
+
             </div>
           ) : (
             <div>
@@ -68,7 +68,7 @@ export default function App(props) {
           </Route>
           <Route exact path="/login"
               render={ (props) => <UserLogin {...props} currentUser = {currentUser} setCurrentUser = {setCurrentUser} />}>
-          </Route> 
+          </Route>
           <Route exact path="/register"
              render={ (props) => <UserRegister {...props} />}>
           </Route>
@@ -76,11 +76,11 @@ export default function App(props) {
              render={ (props) => <Items currentUser = {currentUser} {...props}/>}>
           </Route>
         </Switch>
-        
-        
+
+
       </div>
     </div>
-  
+
   );
 
 }

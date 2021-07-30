@@ -18,7 +18,42 @@ export default function UserList({currentUser, setCurrentUser},  ...props) {
     })     
 
   }, []);
-      
+  
+  function getUsers(path, userAccessToken){
+    return new Promise((resolve, reject)=>{
+        fetch(URL + path, { 
+            method: 'GET',   
+            headers: { Authorization: userAccessToken }
+        })
+        .then(res => checkHtppError(res))
+        .then(res => resolve(res.json()))
+        .catch(reject);
+    });
+  }
+  
+  function checkHtppError(res){
+    if (res.ok) {
+      return res;
+    } else {
+      let message = `Error ${res.status}: ${res.statusText}`;
+      throw new Error(message)
+    }; 
+  };
+  
+  function renderUsersListAsArr (users){
+    let render = [];
+    for (let key in users){
+      render.push(<div>{users[key].login}</div>);
+    };  
+    return render;       
+  }
+  
+  function renderErrorMessage (err) {
+    return (
+      <div> {err.message} </div>
+    );
+  }
+
   return  <div>
            <div>List of DB users:</div>    
            { !error 
@@ -26,40 +61,5 @@ export default function UserList({currentUser, setCurrentUser},  ...props) {
                : <div>{error}</div>
            }
           </div>
- }
-
-function getUsers(path, userAccessToken){
-  return new Promise((resolve, reject)=>{
-      fetch(URL + path, { 
-          method: 'GET',   
-          headers: { Authorization: userAccessToken }
-      })
-      .then(res => checkHtppError(res))
-      .then(res => resolve(res.json()))
-      .catch(reject);
-  });
 }
 
-function checkHtppError(res){
-  
-  if (res.ok) {
-    return res;
-  } else {
-    let message = `Error ${res.status}: ${res.statusText}`;
-    throw new Error(message)
-  }; 
-};
-
-function renderUsersListAsArr (users){
-  let render = [];
-  for (let key in users){
-    render.push(<div>{users[key].login}</div>);
-  };  
-  return render;       
-}
-
-function renderErrorMessage (err) {
-  return (
-    <div> {err.message} </div>
-  );
-}

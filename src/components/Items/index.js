@@ -2,23 +2,39 @@ import React, { useEffect, useState } from 'react'
 import Item from '../Item';
 import ItemsList from '../ItemList';
 
-const URL = "http://localhost:4000/";
-
 export default function Items({...props}) {
-  
-  const [selectedItem, setList] = useState('');
-	
-  useEffect(()=>{
-  
-  }     
-  , []);
+  const [itemListModifyed, setItemlistModifyed] = useState(true);
+  const [selectedItem, setSelectedItem] = useState('');
+	const [itemMode, setItemMode] = useState('view');
+
+  const onAddHandler = (event)=>{
+    setSelectedItem('');
+    setItemMode('add');
+  }
 
   return  <div>
             <div>
-              <ItemsList {...props}/>   	
-	    </div>  
-	    <div>
-	       { selectedItem && <Item {...props}/> }
-	    </div>  
+              <button  onClick={onAddHandler}> Add item </button>
+            </div>
+            <div>
+              <ItemsList {...props}
+                selectedItem ={selectedItem} 
+                setSelectedItem={setSelectedItem} 
+                itemMode = {itemMode} 
+                setItemMode = {setItemMode}
+                itemListModifyed = {itemListModifyed}
+                setItemlistModifyed = {setItemlistModifyed}
+              />  	
+	          </div>  
+	          <div>
+              {((itemMode=='add')||(selectedItem))&&
+              <Item { ...props}  
+                selectedItem ={selectedItem} 
+                setSelectedItem={setSelectedItem} 
+                itemMode = {itemMode} 
+                setItemMode = {setItemMode}
+                setItemlistModifyed = {setItemlistModifyed}
+              />}
+	          </div>  
           </div>
   }
