@@ -32,6 +32,8 @@ export default function App() {
   const classes = useStyles();
   const [drawer, setDrawer] = useState(false);
   const [updateComponentSwitch, setUpdateComponentSwitch] = useState(true); 
+  const [appBarTitle, setAppBarTitle] = useState('Game');
+
 
   useEffect(()=>{
     setUpdateComponentSwitch(!updateComponentSwitch)
@@ -46,15 +48,14 @@ export default function App() {
   };
 
   return (
-    <div>
-      <div >
+    <>
         <AppBar  position="static">
           <Toolbar>
             <IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
              <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title} >
-              Title
+              {appBarTitle}
             </Typography>
           
             {!userAccessToken && 
@@ -85,12 +86,12 @@ export default function App() {
           </ListItem> 
         </SwipeableDrawer>
 
-      </div>
+
       
-      <div>
+
         <Switch>
           <Route exact path="/"
-            render={ (props) => <Home {...props} />}>
+            render={ (props) => <Home setAppBarTitle = {setAppBarTitle} {...props} />}>
           </Route>
           <Route exact path="/login"
               render={ (props) => <UserLogin {...props} />}>
@@ -99,11 +100,11 @@ export default function App() {
              render={ (props) => <UserRegister {...props} />}>
           </Route>
           <Route exact path="/Items"
-             render={ (props) => <Items {...props} />}>
+             render={ (props) => <Items setAppBarTitle = {setAppBarTitle} {...props} />}>
           </Route>
         </Switch>
-      </div>
-    </div>
+
+    </>
 
   );
 

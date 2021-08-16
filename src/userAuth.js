@@ -26,7 +26,7 @@ export function logOut(){
 
 export function getUserFromLocalStorage(){
     let user = JSON.parse(localStorage.getItem('user'));
-    user && accessTokenExpired(user) && localStorage.removeItem('user') && (user = {})
+    user && accessTokenExpired(user) && localStorage.removeItem('user') && (user = {});
     return user;
 }
 
