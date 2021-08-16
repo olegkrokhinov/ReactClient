@@ -1,40 +1,75 @@
 import React, { useEffect, useState } from 'react'
-import Item from '../Item';
-import ItemsList from '../ItemList';
+import AddItem from './AddItem';
+import EditItem from './EditItem';
+import ViewItem from './ViewItem'
+import ItemsList from './ItemList';
+import Grid from '@material-ui/core/Grid';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => (
+  {
+    root: {
+      flexGrow: 1,
+      marginLeft:16
+    }
+  }
+)); 
 
 export default function Items({...props}) {
   const [itemListModifyed, setItemlistModifyed] = useState(true);
-  const [selectedItem, setSelectedItem] = useState('');
-	const [itemMode, setItemMode] = useState('view');
+  const [selectedItemId, setSelectedItemId] = useState('');
+	const [itemAction, setItemAction] = useState('');
+
+  const classes = useStyles();
 
   const onAddHandler = (event)=>{
-    setSelectedItem('');
-    setItemMode('add');
-  }
+    setSelectedItemId('');
+    setItemAction('add');
+  };
 
-  return  <div>
-            <div>
-              <button  onClick={onAddHandler}> Add item </button>
-            </div>
-            <div>
+  return ( 
+        <div className={classes.root}>
+          <Grid container spacing={3}>
+            <Grid item xs={3}>
+         
+              <Button onClick={onAddHandler} size="small" color="primary">
+                 Add item
+              </Button>
+                
               <ItemsList {...props}
-                selectedItem ={selectedItem} 
-                setSelectedItem={setSelectedItem} 
-                itemMode = {itemMode} 
-                setItemMode = {setItemMode}
+                selectedItemId ={selectedItemId} 
+                setSelectedItemId={setSelectedItemId} 
+                setItemAction = {setItemAction}
                 itemListModifyed = {itemListModifyed}
                 setItemlistModifyed = {setItemlistModifyed}
               />  	
-	          </div>  
-	          <div>
-              {((itemMode=='add')||(selectedItem))&&
-              <Item { ...props}  
-                selectedItem ={selectedItem} 
-                setSelectedItem={setSelectedItem} 
-                itemMode = {itemMode} 
-                setItemMode = {setItemMode}
-                setItemlistModifyed = {setItemlistModifyed}
-              />}
-	          </div>  
-          </div>
-  }
+	          </Grid>
+	          <Grid item xs={9}>
+              {(itemAction=='add')&&
+                <AddItem { ...props}  
+                  setSelectedItemId={setSelectedItemId} 
+                  setItemlistModifyed = {setItemlistModifyed}
+                  setItemAction = {setItemAction}
+                />
+              }
+              {(itemAction=='edit')&&
+                <EditItem { ...props}  
+                  selectedItemId = {selectedItemId}
+                  setSelectedItemId = {setSelectedItemId} 
+                  setItemlistModifyed = {setItemlistModifyed}
+                  setItemAction = {setItemAction}
+                />
+              }
+               {(itemAction=='view')&&
+                <ViewItem { ...props}  
+                  selectedItemId = {selectedItemId}
+                  setItemAction = {setItemAction}
+                />
+              }
+	          </Grid>  
+          </Grid>
+        </div> 
+         )
+}

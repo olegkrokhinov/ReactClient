@@ -1,20 +1,21 @@
 import React from 'react';
+import { authenticatedUser } from '../userAuth';
 
-export default function Home({currentUser, setCurrentUser},  ...props) {
+export default function Home(...props) {
     
   return (
     <div>
       <h3>Home page</h3>
-      {currentUser && 
+      {authenticatedUser && 
           <div>
-              <div>Hello, {currentUser.userLogin}!</div>
+              <div>Hello, {authenticatedUser.userLogin}!</div>
               <div>User roles: </div> 
-              {currentUser.userRoles.map((role, index)=>{
+              {authenticatedUser.userRoles.map((role, index)=>{
                  return <div>{role.name}</div> 
               })}
           </div>
       }
-      {!currentUser && 
+      {!authenticatedUser && 
           <div>
               Hello Guest!
           </div>

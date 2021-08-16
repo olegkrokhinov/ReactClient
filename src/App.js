@@ -1,83 +1,107 @@
 
-import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { AppBar, Button, IconButton, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import { ListItemIcon } from '@material-ui/core';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import ListRoundedIcon from '@material-ui/icons/ListRounded';
+import { makeStyles } from '@material-ui/core/styles';
 
+import React, { useEffect, useState } from 'react';
+import { Link, Route, Switch } from "react-router-dom";
+import Home from './components/Home.js';
+import Items from './components/Items';
 import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
-import Home from './components/Home.js';
-import userAuth from './userAuth.js';
-import Items from './components/Items'
+import { logOut, userAccessToken } from './userAuth.js';
 
-export default function App(props) {
 
-  const [currentUser, setCurrentUser] = useState(()=>{
-    return userAuth.getCurrentUser();});
- 
-  function logOut(){
-    userAuth.logOut();
-    setCurrentUser('');
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
-  }
+export default function App() {
+
+  const classes = useStyles();
+  const [drawer, setDrawer] = useState(false);
+  const [updateComponentSwitch, setUpdateComponentSwitch] = useState(true); 
+
+  useEffect(()=>{
+    setUpdateComponentSwitch(!updateComponentSwitch)
+  }, [ userAccessToken ]);
+  
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setDrawer(open);
+  };
 
   return (
     <div>
-      <div>
-        <nav>
-          <li>
-            <Link to={"/"}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to={"/items"}>
-              Items
-            </Link>
-          </li>
+      <div >
+        <AppBar  position="static">
+          <Toolbar>
+            <IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+             <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title} >
+              Title
+            </Typography>
+          
+            {!userAccessToken && 
+              <>
+              <Button color="inherit"  component={Link} to="/register">Register</Button>
+              <Button color="inherit"  component={Link} to="/login">Login</Button>
+              </>
+            }
+            {userAccessToken &&
+              <Button color="inherit"  component={Link} to="/" onClick={logOut}>LogOut</Button>
+            } 
+          </Toolbar>
+        </AppBar>
 
-          {currentUser ? (
-            <div>
-              <li>
-                <a href="/" className="nav-link" onClick={logOut}>
-                  LogOut
-                </a>
-              </li>
-
-            </div>
-          ) : (
-            <div>
-              <li>
-                <Link to={"/login"}>
-                  Login
-                </Link>
-              </li>
-
-              <li>
-                <Link to={"/register"}>
-                  Sign Up
-                </Link>
-              </li>
-            </div>
-          )}
-        </nav>
+        <SwipeableDrawer
+            anchor = 'left'
+            open = {drawer}
+            onClose={toggleDrawer('left', false)}
+            onOpen={toggleDrawer('left', true)}
+          >
+          <ListItem button key={Home} component={Link} to="/" onClick={()=>setDrawer(false)}>
+            <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
+            <ListItemText primary='Home' />
+          </ListItem>
+          <ListItem button key={Items} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
+            <ListItemIcon><ListRoundedIcon /></ListItemIcon>
+            <ListItemText primary='Items' />
+          </ListItem> 
+        </SwipeableDrawer>
 
       </div>
+      
       <div>
         <Switch>
           <Route exact path="/"
-            render={ (props) => <Home {...props} currentUser = {currentUser} setCurrentUser = {setCurrentUser} />}>
+            render={ (props) => <Home {...props} />}>
           </Route>
           <Route exact path="/login"
-              render={ (props) => <UserLogin {...props} currentUser = {currentUser} setCurrentUser = {setCurrentUser} />}>
+              render={ (props) => <UserLogin {...props} />}>
           </Route>
           <Route exact path="/register"
              render={ (props) => <UserRegister {...props} />}>
           </Route>
           <Route exact path="/Items"
-             render={ (props) => <Items currentUser = {currentUser} {...props}/>}>
+             render={ (props) => <Items {...props} />}>
           </Route>
         </Switch>
-
-
       </div>
     </div>
 

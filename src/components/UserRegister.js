@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import userAuth from '../userAuth.js'
+import {register} from '../userAuth.js'
 
 export default function UserRegister (props) {
   
@@ -18,7 +18,7 @@ export default function UserRegister (props) {
 
   function handleSubmit(event) {
       event.preventDefault();
-      userAuth.register(login, password)
+      register(login, password)
       .then((json)=>{
         setRegisterResultMessage('User registered successfuly!'); 
         setRegistered(true);

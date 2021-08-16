@@ -4,23 +4,27 @@ const URL_AUTH = "http://localhost:4000/auth/";
 
 const saveToLocalStorage = true; 
 
-function login(userLogin, userPassword) {
+export let userAccessToken = '';
+export let authenticatedUser = getUserFromLocalStorage();
+(authenticatedUser) && (userAccessToken = authenticatedUser.userAccessToken); 
+
+export function login(userLogin, userPassword) {
     const body = {userLogin: userLogin, userPassword: userPassword};
     return postUser('login', body, saveToLocalStorage);
 }
 
-function register(userLogin, userPassword){
+export function register(userLogin, userPassword){
     const body = {userLogin: userLogin, userPassword: userPassword};
     return postUser('signup', body, !saveToLocalStorage);
 }
 
-function logOut(){
+export function logOut(){
     const body = {userAccessToken: JSON.parse(localStorage.getItem('user')).userAccessToken};
     localStorage.removeItem('user');
     return postUser('logout', body, !saveToLocalStorage);
 }
 
-function getCurrentUser(){
+export function getUserFromLocalStorage(){
     let user = JSON.parse(localStorage.getItem('user'));
     user && accessTokenExpired(user) && localStorage.removeItem('user') && (user = {})
     return user;
@@ -46,20 +50,12 @@ function postUser(authPath, authBody, saveToLocalStorage = false){
             }
         })
         .then(res => res.json())
-        .then(json => {
-            saveToLocalStorage && saveUserToLocalStorage(json);
-            resolve(json);
+        .then(user => {
+            saveToLocalStorage && saveUserToLocalStorage(user);
+            authenticatedUser = user;
+            (authenticatedUser) && (userAccessToken = authenticatedUser.userAccessToken);
+            resolve(user);
         })
         .catch(reject);
     });
 }
-
-
-const userAuth = {
-    getCurrentUser,
-    login,
-    logOut,
-    register,  
-}
-
-export default userAuth

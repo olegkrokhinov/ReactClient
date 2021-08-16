@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import userAuth from '../userAuth.js';
+import {login as authLogin } from '../userAuth.js';
  
 export default function UserLogin(props) {
   
@@ -17,9 +17,8 @@ export default function UserLogin(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    userAuth.login(login, password)
+    authLogin(login, password)
     .then((user)=>{
-      props.setCurrentUser(user);
       props.history.push("/");
     })
     .catch(error => {
