@@ -6,13 +6,35 @@ import ItemsList from './ItemList';
 import Grid from '@material-ui/core/Grid';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => (
   {
     root: {
       flexGrow: 1,
-      marginLeft:16
+      marginTop: 16,
+      marginBottom: 8,
+      marginLeft:8,
+      marginRight: 8,
+    },
+    itemsListPaper: {
+      marginBottom: 8,
+      marginLeft:8,
+    },
+    itemsActions: {
+      marginBottom: 8,
+      marginRight:8,
+    },
+    itemsList: {
+      marginTop: 8,
+      marginBottom: 8,
+      marginLeft:8,
+      marginRight: 8,
+    },
+    addButton: {
+      marginTop: 8,
+      marginBottom: 8,
+      marginLeft: 8,
     }
   }
 )); 
@@ -31,45 +53,50 @@ export default function Items({...props}) {
 
   return ( 
         <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
-         
-              <Button onClick={onAddHandler} size="small" color="primary">
-                 Add item
-              </Button>
-                
-              <ItemsList {...props}
-                selectedItemId ={selectedItemId} 
-                setSelectedItemId={setSelectedItemId} 
-                setItemAction = {setItemAction}
-                itemListModifyed = {itemListModifyed}
-                setItemlistModifyed = {setItemlistModifyed}
-              />  	
-	          </Grid>
-	          <Grid item xs={9}>
-              {(itemAction=='add')&&
-                <AddItem { ...props}  
-                  setSelectedItemId={setSelectedItemId} 
-                  setItemlistModifyed = {setItemlistModifyed}
-                  setItemAction = {setItemAction}
-                />
-              }
-              {(itemAction=='edit')&&
-                <EditItem { ...props}  
-                  selectedItemId = {selectedItemId}
-                  setSelectedItemId = {setSelectedItemId} 
-                  setItemlistModifyed = {setItemlistModifyed}
-                  setItemAction = {setItemAction}
-                />
-              }
-               {(itemAction=='view')&&
-                <ViewItem { ...props}  
-                  selectedItemId = {selectedItemId}
-                  setItemAction = {setItemAction}
-                />
-              }
-	          </Grid>  
-          </Grid>
+          <Paper elevation={3}>
+            <Grid container spacing={1}>
+              <Grid item xs={4} lg={2} xl={2}>
+                <Paper elevation={0} variant="outlined" square className={classes.itemsListPaper}>
+                  <Button onClick={onAddHandler} variant="contained" color="primary" className={classes.addButton}>
+                    Add item
+                  </Button>
+                  <ItemsList {...props} 
+                      selectedItemId ={selectedItemId} 
+                      setSelectedItemId={setSelectedItemId} 
+                      setItemAction = {setItemAction}
+                      itemListModifyed = {itemListModifyed}
+                      setItemlistModifyed = {setItemlistModifyed} 
+                  /> 
+                </Paper>
+              </Grid>
+
+              <Grid item xs={8} lg={10} xl={10}>
+                <Paper elevation={0} variant="outlined" square className={classes.itemsActions}>                        
+                  {(itemAction=='add')&&
+                    <AddItem { ...props}  
+                      setSelectedItemId={setSelectedItemId} 
+                      setItemlistModifyed = {setItemlistModifyed}
+                      setItemAction = {setItemAction}
+                    />
+                  }
+                  {(itemAction=='edit')&&
+                    <EditItem { ...props}  
+                      selectedItemId = {selectedItemId}
+                      setSelectedItemId = {setSelectedItemId} 
+                      setItemlistModifyed = {setItemlistModifyed}
+                      setItemAction = {setItemAction}
+                    />
+                  }
+                  {(itemAction=='view')&&
+                    <ViewItem { ...props}  
+                      selectedItemId = {selectedItemId}
+                      setItemAction = {setItemAction}
+                    />
+                  }
+                </Paper>
+              </Grid>  
+            </Grid>
+          </Paper>
         </div> 
          )
 }

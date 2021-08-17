@@ -39,6 +39,17 @@ export default function ItemImage(
 
   return (
     <div>
+       <img src={itemImagePreviewUrl} height='150' weight='150' alt={itemImagePreviewUrl}>
+       
+       </img>
+       
+       <label htmlFor="contained-button-file">
+        <Button  variant="outlined" color="primary"  component="span">
+          Select image
+        </Button>
+      </label>  
+
+     
       <input
         accept="image/*"
         className={classes.input}
@@ -47,13 +58,6 @@ export default function ItemImage(
         type="file"
         onChange={handleItemImageChange}
       />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span">
-          Image
-        </Button>
-      </label>  
-
-      <img src={itemImagePreviewUrl} height='150' weight='150' alt={itemImagePreviewUrl}></img>
     </div>
   );
   

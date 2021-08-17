@@ -20,10 +20,11 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
 
   export function saveItemToDb(itemId, itemName, itemDescription, itemLocalImageFile){
     const formData = new FormData();
+    console.log(itemId)
     formData.append('itemId', itemId);
     formData.append('itemName', itemName);
     formData.append('itemDescription', itemDescription);
-    formData.append('itemImageFile', itemLocalImageFile);
+    formData.append('itemLocalImageFile', itemLocalImageFile);
     formData.append('emptyImage', 'false');
     
     const options = { 
@@ -32,7 +33,6 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
       headers: { 
         'Authorization': userAccessToken }, 
     }
-
     return fetchItem(options)
   }
 
@@ -42,7 +42,6 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
       headers: { 
         'Authorization': userAccessToken }, 
     }
-    
     return fetchItem(options, itemId)
   }
 
@@ -51,7 +50,6 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
       method: 'DELETE', 
       headers: {'Authorization': userAccessToken} 
     }
-    
     return fetchItem(options, itemId);
   }
 
@@ -66,7 +64,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
   function fetchItem(options, itemId = ''){
     return new Promise((resolve, reject)=>{
       fetch(URL_ITEMS + itemId, options)
-      .then(res => checkHtppError(res))
+//      .then(res => checkHtppError(res))
       .then(res => res.json())
       .then(json => resolve(json))        
       .catch(reject); 

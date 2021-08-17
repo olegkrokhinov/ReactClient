@@ -1,4 +1,4 @@
-import { FormControl, Grid, InputBase, InputLabel, makeStyles, withStyles } from '@material-ui/core';
+import { Dialog, FormControl, Grid, InputBase, InputLabel, makeStyles, Slide, withStyles } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import urljoin from 'url-join';
 import { getItemFromDb, saveItemToDb} from '../itemFetch';
@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 }));
+
 
 export default function EditItem(
     {selectedItemId, 
@@ -96,32 +97,35 @@ export default function EditItem(
   }
 
   return (
-    <div>
+    
       
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>      
-          <Grid>  
+          <Grid item>  
             <FormControl className={classes.margin}>
               <InputLabel htmlFor="item-name">Name</InputLabel>
               <BootstrapInput id="item-name"  value={itemName} onChange={handleNameChange}  />
             </FormControl>
+          </Grid>
+          <Grid item>
             <FormControl className={classes.margin}>
               <InputLabel htmlFor="item-description">Description</InputLabel>
               <BootstrapInput id="item-description"  value={itemDescription} onChange={handleDescriptionChange}/>
             </FormControl>
           </Grid>
-          <Grid>
+          <Grid item>
             <ItemImage itemUploadedImagePath={itemUploadedImagePath} setLocalImageFile={setLocalImageFile}/>
           </Grid>         
         </Grid>     
         <input type="submit" value="Save" />
+        
         {saveItemResultMessage &&  
           <div>
             {saveItemResultMessage}
           </div>
         }
       </form>
-    </div>
+  
   );
   
 };

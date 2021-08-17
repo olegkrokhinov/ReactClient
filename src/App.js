@@ -1,5 +1,5 @@
 
-import { AppBar, Button, IconButton, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, Container, IconButton, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { ListItemIcon } from '@material-ui/core';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
@@ -13,6 +13,7 @@ import Items from './components/Items';
 import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 import { logOut, userAccessToken } from './userAuth.js';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,10 +35,9 @@ export default function App() {
   const [updateComponentSwitch, setUpdateComponentSwitch] = useState(true); 
   const [appBarTitle, setAppBarTitle] = useState('Game');
 
-
   useEffect(()=>{
-    setUpdateComponentSwitch(!updateComponentSwitch)
-  }, [ userAccessToken ]);
+    setUpdateComponentSwitch(!updateComponentSwitch);
+  }, [userAccessToken]);
   
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -69,7 +69,7 @@ export default function App() {
             } 
           </Toolbar>
         </AppBar>
-
+        
         <SwipeableDrawer
             anchor = 'left'
             open = {drawer}
@@ -80,29 +80,30 @@ export default function App() {
             <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
             <ListItemText primary='Home' />
           </ListItem>
-          <ListItem button key={Items} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
-            <ListItemIcon><ListRoundedIcon /></ListItemIcon>
-            <ListItemText primary='Items' />
-          </ListItem> 
+          {userAccessToken && 
+            <ListItem button key={Items} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
+              <ListItemIcon><ListRoundedIcon /></ListItemIcon>
+              <ListItemText primary='Items' />
+            </ListItem> 
+          }
         </SwipeableDrawer>
-
-
       
-
-        <Switch>
-          <Route exact path="/"
-            render={ (props) => <Home setAppBarTitle = {setAppBarTitle} {...props} />}>
-          </Route>
-          <Route exact path="/login"
-              render={ (props) => <UserLogin {...props} />}>
-          </Route>
-          <Route exact path="/register"
-             render={ (props) => <UserRegister {...props} />}>
-          </Route>
-          <Route exact path="/Items"
-             render={ (props) => <Items setAppBarTitle = {setAppBarTitle} {...props} />}>
-          </Route>
-        </Switch>
+        <Container maxWidth="xl">
+          <Switch>
+            <Route exact path="/"
+              render={ (props) => <Home setAppBarTitle = {setAppBarTitle} {...props} />}>
+            </Route>
+            <Route exact path="/login"
+                render={ (props) => <UserLogin {...props} />}>
+            </Route>
+            <Route exact path="/register"
+              render={ (props) => <UserRegister {...props} />}>
+            </Route>
+            <Route exact path="/Items"
+              render={ (props) => <Items setAppBarTitle = {setAppBarTitle} {...props} />}>
+            </Route>
+          </Switch>
+        </Container>    
 
     </>
 

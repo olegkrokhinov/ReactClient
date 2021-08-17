@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ItemsListElement from './ItemListElement'
 import { getItemsList, deleteItemFromDb } from '../itemFetch'
-import { Grid, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => (
-  {
-    item: {
-      marginLeft: 8
-    }
-    
-    
-  }
-)); 
-
+import { Grid } from '@material-ui/core';
 
 export default function ItemsList(
     {selectedItem, 
@@ -22,35 +11,42 @@ export default function ItemsList(
      setItemlistModifyed, 
      ...props}) {
   
-  const [list, setList] = useState([]);
-  const [error, setError] = useState(null);
-
-  const classes = useStyles();
+  const [list, setList] = useState(<div> Getting a list of items from server.Please wait ...</div>);
+  const [error, setError] = useState('');
 
   useEffect(()=>{
     getItemsList()
     .then (list => {
-      setList(list);
+      setList(renderListAsArr(list, props));
     })
     .catch(err => {
       setError(renderErrorMessage(err));
     })     
   }, [itemListModifyed]);
  
-   
+  function renderListAsArr (list, props){
+    let render = [];
+    for (let key in list){
+      render.push((      
+          <ItemsListElement {...props} item = {list[key]} onEditHandler={onEditHandler} onDeleteHandler={onDeleteHandler}/>
+      ));
+    };  
+    return render;       
+  }
+  
   function renderErrorMessage (err) {
     return (
       <div> {err.message} </div>
     );
   }
 
-  function onEditHandler(id){
-    setSelectedItemId(id);
+  function onEditHandler(event){
+    setSelectedItemId(event.target.value);
     setItemAction('edit');
   }
   
-  function onDeleteHandler(id){
-    deleteItemFromDb(id)
+  function onDeleteHandler(event){
+    deleteItemFromDb(event.target.value)
     .then(()=>{
         setItemlistModifyed((value)=>(!value));
         setSelectedItemId('');
@@ -60,15 +56,9 @@ export default function ItemsList(
 
   return  <div> 
             { !error 
-                ? <Grid container spacing={1} >
-                    {list.map((item)=>{
-                        return (
-                          <Grid item className={classes.item}>
-                            <ItemsListElement {...props} item = {item} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
-                          </Grid>
-                        )
-                    })} 
-                </Grid>
+                ? <Grid container >
+                    {list}
+                  </Grid>
                 : <div>{error}</div>
             }
           </div>
