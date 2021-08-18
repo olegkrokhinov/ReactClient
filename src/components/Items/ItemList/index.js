@@ -5,8 +5,8 @@ import { Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => (
   {
-    item: {
-      marginLeft: 8
+    root: {
+      margin: theme.spacing(1),
     }
     
     
@@ -44,6 +44,11 @@ export default function ItemsList(
     );
   }
 
+  function onViewHandler(id){
+    setSelectedItemId(id);
+    setItemAction('view');
+  }
+
   function onEditHandler(id){
     setSelectedItemId(id);
     setItemAction('edit');
@@ -58,13 +63,13 @@ export default function ItemsList(
     .catch()
   }
 
-  return  <div> 
+  return  <div className={classes.root}> 
             { !error 
                 ? <Grid container spacing={1} >
                     {list.map((item)=>{
                         return (
-                          <Grid item className={classes.item}>
-                            <ItemsListElement {...props} item = {item} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
+                          <Grid item >
+                            <ItemsListElement {...props} item = {item} itemOnViewHandler={onViewHandler} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
                           </Grid>
                         )
                     })} 

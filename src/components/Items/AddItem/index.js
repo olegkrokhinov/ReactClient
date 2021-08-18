@@ -1,6 +1,16 @@
+import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState} from 'react';
 import { addItemToDb } from '../itemFetch';
 import ItemImage from '../ItemImage';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: theme.spacing(1),
+  },
+  textField:{
+    width: '50ch',
+  }
+}));
 
 export default function AddItem(
     {setItemlistModifyed, 
@@ -11,9 +21,9 @@ export default function AddItem(
   const [itemName, setItemName] = useState(''); 
   const [itemDescription, setItemDescription] = useState(''); 
   const [localImageFile, setLocalImageFile] = useState(''); 
-
   const [saveItemResultMessage, setSaveItemResultMessage] = useState(''); 
-   
+
+  const classes = useStyles();  
  
   function handleNameChange(event) {
     setItemName(event.target.value);
@@ -37,21 +47,60 @@ export default function AddItem(
   }
 
   return (
-    <div>
-      <div><h3>AddItem:</h3></div>
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
-        <input name="name" value={itemName} onChange={handleNameChange} />
-        <label>Description:</label>
-        <input name="description" value={itemDescription} onChange={handleDescriptionChange} />
-        <ItemImage itemUploadedImagePath='' setLocalImageFile={setLocalImageFile}/>
-        <input type="submit" value="Save" />
+    <div className={classes.root}>
+        <Typography variant="h5" gutterBottom>
+          Add Item:
+        </Typography>
+        <Grid container spacing={3}  direction="column">      
+
+          <Grid item>  
+            <TextField
+              className={classes.textField}
+              id="item-name"
+              label="Item name"
+              value={itemName}
+              placeholder="Enter item name here"
+              onChange={handleNameChange}
+              variant="outlined"
+              size="small"
+            />            
+          </Grid>
+
+          <Grid item>
+            <TextField
+              className={classes.textField}
+              id="item-description"
+              label="Item description"
+              multiline
+              rows={10}
+              value={itemDescription}
+              placeholder="Enter item description here"
+              onChange={handleDescriptionChange}
+              variant="outlined"
+              size="small"
+            />            
+          </Grid>
+
+          <Grid item>
+            <ItemImage itemUploadedImagePath='' setLocalImageFile={setLocalImageFile}/>
+          </Grid>      
+
+           <Grid item>
+            <Button onClick={handleSubmit} variant="outlined" color="primary">
+              Save
+            </Button>
+          </Grid>
+
+        </Grid>     
+        
         {saveItemResultMessage &&  
           <div>
             {saveItemResultMessage}
           </div>
         }
-      </form>
+
+
+
     </div>
   );
   

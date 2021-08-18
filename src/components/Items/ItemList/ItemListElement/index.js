@@ -1,18 +1,18 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
 import urljoin from 'url-join';
 const URL_HOME = "http://localhost:4000/";
 
 const useStyles = makeStyles({
   root: {
-    width: 240,
+    width: 165,
   },
   media: {
-    height: 240,
+    height: 150,
   },
 });
 
-const ItemListElement = ({item, itemOnEditHandler, itemOnDeleteHandler, ...props}) => {
+const ItemListElement = ({item, itemOnEditHandler, itemOnDeleteHandler, itemOnViewHandler, ...props}) => {
 
   const classes = useStyles();
 
@@ -25,22 +25,24 @@ const ItemListElement = ({item, itemOnEditHandler, itemOnDeleteHandler, ...props
     itemOnDeleteHandler(item._id);
   }
 
+  function onViewHadnler(event){
+    itemOnViewHandler(item._id);
+  } 
+   
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} >
       <CardActionArea>
         {item.imageUploadPath &&
           <CardMedia
             className={classes.media}
             image={urljoin(URL_HOME, item.imageUploadPath)}
             title="Item image"
+            onClick={onViewHadnler}
           />
         }
         <CardContent>
           <Typography variant="h5">
             {item.name}
-          </Typography>
-          <Typography color="textSecondary">
-            {item.description}
           </Typography>
         </CardContent>
       </CardActionArea>

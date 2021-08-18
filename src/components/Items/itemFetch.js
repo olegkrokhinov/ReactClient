@@ -64,7 +64,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
   function fetchItem(options, itemId = ''){
     return new Promise((resolve, reject)=>{
       fetch(URL_ITEMS + itemId, options)
-//      .then(res => checkHtppError(res))
+      .then(res => checkHtppError(res))
       .then(res => res.json())
       .then(json => resolve(json))        
       .catch(reject); 
