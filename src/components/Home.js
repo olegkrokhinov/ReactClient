@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import { authenticatedUser } from '../userAuth';
+import { addUserIsAuthentificatedListener } from '../userAuth';
 
 export default function Home(...props) {
-    
+
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken==''));
+  addUserIsAuthentificatedListener(setUserIsAuthenticated);
+
   return (
     <div>
       <h3>Home page</h3>
-      {authenticatedUser && 
+      {userIsAuthenticated && 
           <div>
               <div>Hello, {authenticatedUser.userLogin}!</div>
               <div>User roles: </div> 
@@ -15,9 +20,10 @@ export default function Home(...props) {
               })}
           </div>
       }
-      {!authenticatedUser && 
+      {!userIsAuthenticated && 
           <div>
               Hello Guest!
+              To have acces to items please login.
           </div>
 
       }

@@ -1,5 +1,5 @@
 
-import {userAccessToken} from '../../userAuth'
+import {authenticatedUser} from '../../userAuth'
 const URL_ITEMS = "http://localhost:4000/items/";
 
 export function addItemToDb(itemName, itemDescription, itemLocalImageFile){    
@@ -12,7 +12,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
       method: 'POST', 
       body : formData,
       headers: { 
-        'Authorization': userAccessToken }, 
+        'Authorization': authenticatedUser.userAccessToken }, 
     }
 
     return fetchItem(options);
@@ -31,7 +31,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
       method: 'PUT', 
       body: formData,
       headers: { 
-        'Authorization': userAccessToken }, 
+        'Authorization': authenticatedUser.userAccessToken }, 
     }
     return fetchItem(options)
   }
@@ -40,7 +40,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
     const options = { 
       method: 'GET', 
       headers: { 
-        'Authorization': userAccessToken }, 
+        'Authorization': authenticatedUser.userAccessToken }, 
     }
     return fetchItem(options, itemId)
   }
@@ -48,7 +48,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
   export function deleteItemFromDb(itemId){
     const options = { 
       method: 'DELETE', 
-      headers: {'Authorization': userAccessToken} 
+      headers: {'Authorization': authenticatedUser.userAccessToken} 
     }
     return fetchItem(options, itemId);
   }
@@ -56,7 +56,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
   export function getItemsList(){
     const options = { 
       method: 'GET', 
-      headers: {'Authorization': userAccessToken} 
+      headers: {'Authorization': authenticatedUser.userAccessToken} 
     }
     return fetchItem(options);
   }

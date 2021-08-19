@@ -1,4 +1,6 @@
 
+
+
 import { AppBar, Button, Container, IconButton, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { ListItemIcon } from '@material-ui/core';
@@ -12,9 +14,9 @@ import Home from './components/Home.js';
 import Items from './components/Items';
 import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
-import { logOut, userAccessToken } from './userAuth.js';
 
 
+import { logOut, authenticatedUser,  addUserIsAuthentificatedListener} from './userAuth.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,18 +35,15 @@ export default function App() {
 
   const classes = useStyles();
   const [drawer, setDrawer] = useState(false);
-  const [updateComponentSwitch, setUpdateComponentSwitch] = useState(true); 
   const [appBarTitle, setAppBarTitle] = useState('Game');
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken==''));
 
-  useEffect(()=>{
-    setUpdateComponentSwitch(!updateComponentSwitch);
-  }, [userAccessToken]);
-  
+  addUserIsAuthentificatedListener(setUserIsAuthenticated);
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
     setDrawer(open);
   };
 
@@ -59,18 +58,18 @@ export default function App() {
               {appBarTitle}
             </Typography>
           
-            {!userAccessToken && 
+            {!userIsAuthenticated && 
               <>
               <Button color="inherit"  component={Link} to="/register">Register</Button>
               <Button color="inherit"  component={Link} to="/login">Login</Button>
               </>
             }
-            {userAccessToken &&
+            {userIsAuthenticated &&
               <Button color="inherit"  component={Link} to="/" onClick={logOut}>LogOut</Button>
             } 
           </Toolbar>
         </AppBar>
-        
+
         <SwipeableDrawer
             anchor = 'left'
             open = {drawer}
@@ -81,7 +80,7 @@ export default function App() {
             <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
             <ListItemText primary='Home' />
           </ListItem>
-          {userAccessToken && 
+          {userIsAuthenticated && 
             <ListItem button key={Items} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
               <ListItemIcon><ListRoundedIcon /></ListItemIcon>
               <ListItemText primary='Items' />
