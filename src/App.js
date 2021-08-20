@@ -16,7 +16,7 @@ import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 
 
-import { logOut, authenticatedUser,  addUserIsAuthentificatedListener} from './userAuth.js';
+import { refreshAccessTokenFromServer, logOut, authenticatedUser,  addUserIsAuthentificatedListener} from './userAuth.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,12 +47,18 @@ export default function App() {
     setDrawer(open);
   };
 
+  const TESTconsoleLog= () => {
+    refreshAccessTokenFromServer()
+    .then(()=>console.log(authenticatedUser.userAccessToken))
+    
+  }
+//<IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
   return (
     <>
         <AppBar  position="static">
           <Toolbar>
             <IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-             <MenuIcon />
+              <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title} >
               {appBarTitle}
