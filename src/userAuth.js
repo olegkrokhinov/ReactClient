@@ -22,6 +22,13 @@ export function addUserIsAuthentificatedListener (userIsAuthentificatedSetter){
     userIsAuthentificatedListeners.push(userIsAuthentificatedSetter);
 }
 
+export function delFromUserIsAuthentificatedListeners(userIsAuthentificatedSetter){
+   let index = userIsAuthentificatedListeners.indexOf(userIsAuthentificatedSetter);
+   if (index > -1) {
+    userIsAuthentificatedListeners.splice(index, 1);
+   }
+}
+ 
 function setUserIsAuthenticated(UserIsAuthenticated){
     userIsAuthentificatedListeners.forEach((listener)=>listener(UserIsAuthenticated))
 }

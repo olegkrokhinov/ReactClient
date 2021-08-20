@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { authenticatedUser } from '../userAuth';
-import { addUserIsAuthentificatedListener } from '../userAuth';
+import { addUserIsAuthentificatedListener, delFromUserIsAuthentificatedListeners } from '../userAuth';
 
 export default function Home(...props) {
 
-  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken==''));
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken===''));
   addUserIsAuthentificatedListener(setUserIsAuthenticated);
+
+  useEffect(()=>{
+    return ()=>{
+       delFromUserIsAuthentificatedListeners(setUserIsAuthenticated);      
+    }
+  },[])
 
   return (
     <div>

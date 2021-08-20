@@ -8,7 +8,7 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import ListRoundedIcon from '@material-ui/icons/ListRounded';
 import { makeStyles } from '@material-ui/core/styles';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Route, Switch } from "react-router-dom";
 import Home from './components/Home.js';
 import Items from './components/Items';
@@ -16,7 +16,7 @@ import UserLogin from './components/UserLogin.js';
 import UserRegister from './components/UserRegister.js';
 
 
-import { refreshAccessTokenFromServer, logOut, authenticatedUser,  addUserIsAuthentificatedListener} from './userAuth.js';
+import { logOut, authenticatedUser,  addUserIsAuthentificatedListener} from './userAuth.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ export default function App() {
   const classes = useStyles();
   const [drawer, setDrawer] = useState(false);
   const [appBarTitle, setAppBarTitle] = useState('Game');
-  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken==''));
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken===''));
 
   addUserIsAuthentificatedListener(setUserIsAuthenticated);
 
@@ -47,11 +47,11 @@ export default function App() {
     setDrawer(open);
   };
 
-  const TESTconsoleLog= () => {
-    refreshAccessTokenFromServer()
-    .then(()=>console.log(authenticatedUser.userAccessToken))
+  // const TESTconsoleLog= () => {
+  //   refreshAccessTokenFromServer()
+  //   .then(()=>console.log(authenticatedUser.userAccessToken))
     
-  }
+  // }
 //<IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
   return (
     <>
