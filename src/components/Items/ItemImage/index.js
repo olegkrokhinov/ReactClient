@@ -1,21 +1,24 @@
 
-import { IconButton, ImageList, ImageListItem, ImageListItemBar, makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import React, { useState, useEffect} from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(1),
+    position: 'relative',
   },
   input: {
     display: 'none',
   },
-  imageList: {
-    width: 900,
+  img: {
+    width: 450,
+ 
   },
-  imageBar: {
-     background:
-      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+  btn:{
+    position: 'absolute',
+    top: '45%',
+    left: '35%',
+    cursor: 'pointer',
   }
 }));
 
@@ -40,26 +43,19 @@ export default function ItemImage(
   },[itemUploadedImagePath]);
 
   return (
-    <div>
-      <ImageList rowHeight={400}  className={classes.imageList}>
-        <ImageListItem key={itemImagePreviewUrl}>
-          <img src={itemImagePreviewUrl} alt={itemImagePreviewUrl} ></img>
-          <ImageListItemBar
-            className={classes.imageBar}
-            actionIcon={
-              <>
-                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" onChange={handleItemImageChange}/>
-                <label htmlFor="icon-button-file">
-                <IconButton aria-label="upload picture" component="span">
-                  <PhotoCamera />
-                </IconButton>
-                </label>
-              </>
-            }
-          />
-        </ImageListItem>      
-      </ImageList>
+    <div className={classes.root}>
+      <img src={itemImagePreviewUrl} alt={itemImagePreviewUrl} className={classes.img}></img>
+    
+      <input accept="image/*" className={classes.input} id="button-file" type="file" onChange={handleItemImageChange}/>
+      <label htmlFor="button-file">
+        <Button startIcon={<PhotoCamera />} size='small' variant='outlined' aria-label="upload picture" className={classes.btn}>
+          Upload image
+        </Button>
+      </label>
     </div>
+           
+       
+    
   );
   
 };

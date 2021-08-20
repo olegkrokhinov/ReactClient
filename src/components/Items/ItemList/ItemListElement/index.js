@@ -47,11 +47,11 @@ const ItemListElement = ({item, itemOnEditHandler, itemOnDeleteHandler, itemOnVi
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button onClick={onEditHandler} size="small" color="primary">
+        <Button onClick={onEditHandler} size="small" variant="outlined">
           Edit
         </Button>
        
-        <Button onClick={onDeleteHandler} size="small" color="primary">
+        <Button onClick={onDeleteHandler} size="small" variant="outlined">
           Delete
         </Button>
       </CardActions>

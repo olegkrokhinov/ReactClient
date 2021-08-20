@@ -47,12 +47,6 @@ export default function App() {
     setDrawer(open);
   };
 
-  // const TESTconsoleLog= () => {
-  //   refreshAccessTokenFromServer()
-  //   .then(()=>console.log(authenticatedUser.userAccessToken))
-    
-  // }
-//<IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
   return (
     <>
         <AppBar  position="static">
@@ -82,12 +76,12 @@ export default function App() {
             onClose={toggleDrawer('left', false)}
             onOpen={toggleDrawer('left', true)}
           >
-          <ListItem button key={Home} component={Link} to="/" onClick={()=>setDrawer(false)}>
+          <ListItem button key={1} component={Link} to="/" onClick={()=>setDrawer(false)}>
             <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
             <ListItemText primary='Home' />
           </ListItem>
           {userIsAuthenticated && 
-            <ListItem button key={Items} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
+            <ListItem button key={2} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
               <ListItemIcon><ListRoundedIcon /></ListItemIcon>
               <ListItemText primary='Items' />
             </ListItem> 

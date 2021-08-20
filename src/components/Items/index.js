@@ -49,7 +49,7 @@ export default function Items({...props}) {
           <Paper elevation={3}>
             <Grid container spacing={1}>
               <Grid item  className={classes.itemsListGrid}>
-                  <Button onClick={onAddHandler} variant="outlined" color="primary" className={classes.addButton}>
+                  <Button onClick={onAddHandler} variant="outlined" className={classes.addButton}>
                     Add item
                   </Button>
                   <ItemsList {...props} 

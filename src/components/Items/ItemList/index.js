@@ -66,10 +66,10 @@ export default function ItemsList(
   return  <div className={classes.root}> 
             { !error 
                 ? <Grid container spacing={1} >
-                    {list.map((item)=>{
+                    {list.map((item, index)=>{
                         return (
                           <Grid item >
-                            <ItemsListElement {...props} item = {item} itemOnViewHandler={onViewHandler} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
+                            <ItemsListElement {...props} key={index} item = {item} itemOnViewHandler={onViewHandler} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
                           </Grid>
                         )
                     })} 

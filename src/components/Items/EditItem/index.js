@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import urljoin from 'url-join';
 import { getItemFromDb, saveItemToDb} from '../itemFetch';
 import ItemImage from '../ItemImage';
+import SaveIcon from '@material-ui/icons/Save';
 
 const URL_HOME = "http://localhost:4000/";
 
@@ -68,7 +69,12 @@ export default function EditItem(
         <Typography variant="h5" gutterBottom>
           Edit Item:
         </Typography>
-        <Grid container spacing={3}  direction="column">      
+        <Grid container 
+          spacing={3}  
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >      
 
           <Grid item>  
             <TextField
@@ -99,11 +105,13 @@ export default function EditItem(
           </Grid>
 
           <Grid item>
-            <ItemImage itemUploadedImagePath={itemUploadedImagePath} setLocalImageFile={setLocalImageFile}/>
+            
+              <ItemImage itemUploadedImagePath={itemUploadedImagePath} setLocalImageFile={setLocalImageFile}/>
+          
           </Grid>      
 
           <Grid item>
-            <Button onClick={handleSubmit} variant="outlined" color="primary">
+            <Button startIcon={<SaveIcon />} onClick={handleSubmit} variant="outlined" >
               Save
             </Button>
           </Grid>

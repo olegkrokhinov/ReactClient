@@ -2,6 +2,7 @@ import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/co
 import React, { useState} from 'react';
 import { addItemToDb } from '../itemFetch';
 import ItemImage from '../ItemImage';
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,7 +87,7 @@ export default function AddItem(
           </Grid>      
 
            <Grid item>
-            <Button onClick={handleSubmit} variant="outlined" color="primary">
+           <Button startIcon={<SaveIcon />} onClick={handleSubmit} variant="outlined">
               Save
             </Button>
           </Grid>

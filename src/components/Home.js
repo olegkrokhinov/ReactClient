@@ -22,7 +22,7 @@ export default function Home(...props) {
               <div>Hello, {authenticatedUser.userLogin}!</div>
               <div>User roles: </div> 
               {authenticatedUser.userRoles.map((role, index)=>{
-                 return <div>{role.name}</div> 
+                 return <div key={index}>{role.name}</div> 
               })}
           </div>
       }
