@@ -11,7 +11,7 @@ export const authenticatedUser = {
     userAccessToken: '' 
 };
 
-let refreshAccessTokenIntervalId = '';
+let refreshAccessTokenTimerId = '';
 
 let userIsAuthentificatedListeners = [];
 
@@ -26,7 +26,7 @@ function setUserIsAuthenticated(UserIsAuthenticated){
     userIsAuthentificatedListeners.forEach((listener)=>listener(UserIsAuthenticated))
 }
 
-export function refreshAccessTokenFromServer(){
+export function refreshAccessTokenFromServer(autoupdate=false){
     if (!tokenIsExpired(authenticatedUser.userAccessToken)) {
 
         return new Promise((resolve, reject)=>{
@@ -43,9 +43,10 @@ export function refreshAccessTokenFromServer(){
                 Object.assign(authenticatedUser, user);
                 setUserIsAuthenticated(true);
                 
-                clearInterval(refreshAccessTokenIntervalId);
-                refreshAccessTokenIntervalId = setTimeout(refreshAccessTokenFromServer, getTimeToTokenExpire(authenticatedUser.userAccessToken)-60000);
-                
+                if (autoupdate){
+                    clearTimeout(refreshAccessTokenTimerId);
+                    refreshAccessTokenTimerId = setTimeout(()=>refreshAccessTokenFromServer(true), getTimeToTokenExpire(authenticatedUser.userAccessToken)-60000);
+                }
                 resolve(user);
             })
             .catch(reject);
@@ -78,7 +79,7 @@ export function logOut(){
             localStorage.removeItem('user');
             cleanupAuthenticatedUserData();
             setUserIsAuthenticated(false);
-            clearInterval(refreshAccessTokenIntervalId);
+            clearTimeout(refreshAccessTokenTimerId);
             resolve();
         })
         .catch(reject);
@@ -157,8 +158,8 @@ function postUser(authPath, authBody, saveToLocalStorage = false){
             Object.assign(authenticatedUser, user);
             setUserIsAuthenticated(true);
 
-            clearInterval(refreshAccessTokenIntervalId);
-            refreshAccessTokenIntervalId = setTimeout(refreshAccessTokenFromServer, getTimeToTokenExpire(authenticatedUser.userAccessToken)-60000);
+            clearTimeout(refreshAccessTokenTimerId);
+            refreshAccessTokenTimerId = setTimeout(()=>refreshAccessTokenFromServer(true), getTimeToTokenExpire(authenticatedUser.userAccessToken)-60000);
 
             resolve(user);
         })
