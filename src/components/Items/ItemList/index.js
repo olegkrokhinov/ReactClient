@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => (
   }
 )); 
 
-
 export default function ItemsList(
     {selectedItem, 
      setSelectedItemId, 

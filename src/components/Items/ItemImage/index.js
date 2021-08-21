@@ -1,5 +1,5 @@
 
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, IconButton, makeStyles } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import React, { useState, useEffect} from 'react';
 
@@ -48,10 +48,16 @@ export default function ItemImage(
     
       <input accept="image/*" className={classes.input} id="button-file" type="file" onChange={handleItemImageChange}/>
       <label htmlFor="button-file">
-        <Button startIcon={<PhotoCamera />} size='small' variant='outlined' aria-label="upload picture" className={classes.btn}>
+        <Button startIcon={<PhotoCamera />} 
+                size="small" 
+                variant="contained"
+                aria-label="button-file" 
+                className={classes.btn}
+                component="span"
+        >
           Upload image
         </Button>
-      </label>
+       </label>
     </div>
            
        

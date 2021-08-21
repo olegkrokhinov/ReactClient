@@ -70,6 +70,7 @@ export function addItemToDb(itemName, itemDescription, itemLocalImageFile){
       .catch(reject); 
     })
   }
+  
   function checkHtppError(res){
     if (res.ok) {
       return res;
