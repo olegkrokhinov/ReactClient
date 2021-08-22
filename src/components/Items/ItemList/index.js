@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ItemsListElement from './ItemListElement'
 import { getItemsList, deleteItemFromDb } from '../itemFetch'
-import { Grid, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => (
-  {
-    root: {
-      margin: theme.spacing(1),
-    }
-    
-    
-  }
-)); 
+import { Grid } from '@material-ui/core';
 
 export default function ItemsList(
     {selectedItem, 
@@ -23,8 +13,6 @@ export default function ItemsList(
   
   const [list, setList] = useState([]);
   const [error, setError] = useState(null);
-
-  const classes = useStyles();
 
   useEffect(()=>{
     getItemsList()
@@ -62,19 +50,14 @@ export default function ItemsList(
     .catch()
   }
 
-  return  <div className={classes.root}> 
-            { !error 
-                ? <Grid container spacing={1} >
-                    {list.map((item, index)=>{
-                        return (
-                          <Grid item >
-                            <ItemsListElement {...props} key={index} item = {item} itemOnViewHandler={onViewHandler} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
-                          </Grid>
-                        )
-                    })} 
-                </Grid>
-                : <div>{error}</div>
-            }
-          </div>
+  return <>
+          { (!error)&& 
+              list.map( (item, index)=>
+                <ItemsListElement {...props} key={index} selectedItem={selectedItem} item = {item} itemOnViewHandler={onViewHandler} itemOnEditHandler={onEditHandler} itemOnDeleteHandler={onDeleteHandler}/>
+              )
+          } 
+          {error}
+        </>
+          
   }
 

@@ -40,7 +40,7 @@ export default function ViewItem(
   return (
     <div className={classes.root}>    
         <Typography variant="h5" gutterBottom>
-        View Item:
+          View Item:
         </Typography>
         <Grid 
           container 

@@ -66,9 +66,11 @@ export default function EditItem(
 
   return (
     <div className={classes.root}>    
+        
         <Typography variant="h5" gutterBottom>
           Edit Item:
         </Typography>
+        
         <Grid container 
           spacing={3}  
           direction="column"
@@ -104,10 +106,8 @@ export default function EditItem(
             />            
           </Grid>
 
-          <Grid item>
-            
+          <Grid item>           
               <ItemImage itemUploadedImagePath={itemUploadedImagePath} setLocalImageFile={setLocalImageFile}/>
-          
           </Grid>      
 
           <Grid item>
@@ -115,7 +115,7 @@ export default function EditItem(
               Save
             </Button>
           </Grid>
-        
+   
         </Grid>     
 
         {saveItemResultMessage &&  

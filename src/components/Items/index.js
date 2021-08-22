@@ -15,19 +15,19 @@ const useStyles = makeStyles((theme) => (
       margin: theme.spacing(1),
       
     },
-    itemsListGrid: {
-      maxWidth:180,
-      minWidth:180,
+    itemsListGridItem: {
+      maxWidth:600,
+      minWidth:600,
     },
    
     itemsActions: {
-      marginBottom: 8,
-      marginRight:8,
+      //marginBottom: 8,
+      //marginRight:8,
     },
     addButton: {
       marginTop: 8,
-      marginBottom: 8,
-      marginLeft: 8,
+      //marginBottom: 8,
+      
     }
   }
 )); 
@@ -46,24 +46,43 @@ export default function Items({...props}) {
 
   return ( 
         <div className={classes.root}>
-          <Paper elevation={3}>
-            <Grid container spacing={1}>
-              <Grid item  className={classes.itemsListGrid}>
-                  <Button onClick={onAddHandler} variant="outlined" className={classes.addButton}>
-                    Add item
-                  </Button>
-                  <ItemsList {...props} 
-                      selectedItemId ={selectedItemId} 
-                      setSelectedItemId={setSelectedItemId} 
-                      setItemAction = {setItemAction}
-                      itemListModifyed = {itemListModifyed}
-                      setItemlistModifyed = {setItemlistModifyed} 
-                  /> 
-              </Grid>
+            <Grid container 
+                  spacing={1}
+                  direction = 'row'
+                  alignItems='stretch'
+            >
+               <Paper>
+                <Grid item container 
+                        direction='column'
+                        className={classes.itemsListGridItem}
+                        alignItems='flex-start'
+                  > 
+                
+                    <Grid item 
+                          container 
+                          direction='column' 
+                          alignItems='stretch'
+                    >
+                        <ItemsList {...props} 
+                            selectedItemId ={selectedItemId} 
+                            setSelectedItemId={setSelectedItemId} 
+                            setItemAction = {setItemAction}
+                            itemListModifyed = {itemListModifyed}
+                            setItemlistModifyed = {setItemlistModifyed} 
+                        />                 
+                    </Grid>
+      
+                    <Grid item>
+                      <Button onClick={onAddHandler} variant="outlined" className={classes.addButton}>
+                        Add item
+                      </Button>
+                    </Grid>
+      
+                </Grid>
+              </Paper>
 
-
-              <Grid item>
-                <Paper elevation={0} variant="outlined" className={classes.itemsActions}>                        
+              <Grid item xs>
+                <Paper>
                   {(itemAction==='add')&&
                     <AddItem { ...props}  
                       setSelectedItemId={setSelectedItemId} 
@@ -86,9 +105,10 @@ export default function Items({...props}) {
                     />
                   }
                 </Paper>
-              </Grid>  
+              </Grid>
+              
+
             </Grid>
-          </Paper>
         </div> 
          )
 }
