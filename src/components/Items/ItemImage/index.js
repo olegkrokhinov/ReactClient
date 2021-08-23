@@ -1,5 +1,5 @@
 
-import { Button, IconButton, makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import React, { useState, useEffect} from 'react';
 
@@ -44,7 +44,7 @@ export default function ItemImage(
 
   return (
     <div className={classes.root}>
-      <img src={itemImagePreviewUrl} className={classes.img}></img>
+      <img src={itemImagePreviewUrl} alt = '' className={classes.img}></img>
     
       <input accept="image/*" className={classes.input} id="button-file" type="file" onChange={handleItemImageChange}/>
       <label htmlFor="button-file">

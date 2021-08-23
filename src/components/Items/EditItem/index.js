@@ -1,11 +1,10 @@
-import { Button, Grid, makeStyles, TextField, Typography}from '@material-ui/core';
+import { Button, Grid, makeStyles, TextField}from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import urljoin from 'url-join';
 import { getItemFromDb, saveItemToDb} from '../itemFetch';
 import ItemImage from '../ItemImage';
 import SaveIcon from '@material-ui/icons/Save';
 import ItemActionHeader from '../ItemActionHeader';
-import ItemAction from '../ItemAction';
 
 const URL_HOME = "http://localhost:4000/";
 

@@ -1,9 +1,7 @@
-import { Avatar, Card, CardHeader, Grid, IconButton, makeStyles, Menu, MenuItem, ThemeProvider, Typography } from '@material-ui/core';
+import { Grid, IconButton, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
 import MoreVert  from '@material-ui/icons/MoreVert';
 import React, { useState } from 'react';
-import ItemAction from '../ItemAction';
 import { deleteItemFromDb } from '../itemFetch';
-const URL_HOME = "http://localhost:4000/";
 
 const useStyles = makeStyles((theme) => (
 {

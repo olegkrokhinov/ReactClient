@@ -3,6 +3,7 @@ import React, { useState} from 'react';
 import { addItemToDb } from '../itemFetch';
 import ItemImage from '../ItemImage';
 import SaveIcon from '@material-ui/icons/Save';
+import ItemActionHeader from '../ItemActionHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddItem(
     {setItemlistModifyed, 
      setSelectedItemId,
+     itemAction,
      setItemAction,
      ...props}) {
   
@@ -40,7 +42,7 @@ export default function AddItem(
     .then((item)=>{
       setItemlistModifyed((value)=>(!value));
       setSelectedItemId(item._id);
-      setItemAction('');
+      setItemAction('view');
     })
     .catch(error => {
       setSaveItemResultMessage('Save item catch error: '+ error.message);
@@ -49,11 +51,20 @@ export default function AddItem(
 
   return (
     <div className={classes.root}>
-        <Typography variant="h5" gutterBottom>
-          Add Item:
-        </Typography>
-        <Grid container spacing={3}  direction="column">      
-
+        <Grid container 
+          spacing={3}  
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="stretch"
+        >
+          <Grid item>
+            <ItemActionHeader
+              itemName='New item'
+              itemDescription=''
+              itemAction={itemAction}
+              setItemAction={setItemAction}
+            />
+          </Grid>
           <Grid item>  
             <TextField
               className={classes.textField}

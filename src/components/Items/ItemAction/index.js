@@ -33,8 +33,10 @@ export default function ItemAction({
       {(itemAction==='view')&&
         <ViewItem { ...props}  
           selectedItemId = {selectedItemId}
+          setSelectedItemId={setSelectedItemId}
           itemAction={itemAction}
           setItemAction = {setItemAction}
+          setItemlistModifyed={setItemlistModifyed}
         />
       }
   

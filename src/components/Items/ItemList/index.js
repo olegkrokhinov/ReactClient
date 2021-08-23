@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ItemsListElement from './ItemListElement'
 import { getItemsList } from '../itemFetch'
-import { Grid } from '@material-ui/core';
 
 export default function ItemsList(
     {selectedItemId, 
@@ -34,7 +33,8 @@ export default function ItemsList(
   return <>
           { (!error)&& 
               list.map( (item, index)=>
-                <ItemsListElement {...props} key={index} 
+                <ItemsListElement {...props} 
+                  key={index} 
                   item={item}
                   selectedItemId={selectedItemId} 
                   setSelectedItemId={setSelectedItemId}

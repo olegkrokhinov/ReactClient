@@ -1,4 +1,4 @@
-import { Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Grid, makeStyles, TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import urljoin from 'url-join';
 import ItemActionHeader from '../ItemActionHeader';
@@ -23,7 +23,8 @@ export default function ViewItem(
     { selectedItemId, 
       setSelectedItemId,
       setItemAction,
-      itemAction, 
+      itemAction,
+      setItemlistModifyed, 
 
      ...props}) {
   
@@ -60,6 +61,8 @@ export default function ViewItem(
             itemAction={itemAction}
             setItemAction={setItemAction}
             selectedItemId={selectedItemId}
+            setSelectedItemId={setSelectedItemId}
+            setItemlistModifyed={setItemlistModifyed}
           />
         </Grid>
           <Grid item>  
@@ -87,7 +90,7 @@ export default function ViewItem(
           </Grid>
 
           <Grid item>
-            <img src={itemUploadedImagePath} alt={itemUploadedImagePath} className={classes.img}></img>
+            <img src={itemUploadedImagePath} alt='' className={classes.img}></img>
           </Grid>      
 
         </Grid>     
