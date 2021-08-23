@@ -3,7 +3,7 @@ import { Button, IconButton, makeStyles } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import React, { useState, useEffect} from 'react';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     position: 'relative',
   },
@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: 450,
- 
+    height: 450
   },
   btn:{
     position: 'absolute',
     top: '45%',
-    left: '35%',
+    left: '20%',
     cursor: 'pointer',
   }
 }));
@@ -44,7 +44,7 @@ export default function ItemImage(
 
   return (
     <div className={classes.root}>
-      <img src={itemImagePreviewUrl} alt={itemImagePreviewUrl} className={classes.img}></img>
+      <img src={itemImagePreviewUrl} className={classes.img}></img>
     
       <input accept="image/*" className={classes.input} id="button-file" type="file" onChange={handleItemImageChange}/>
       <label htmlFor="button-file">

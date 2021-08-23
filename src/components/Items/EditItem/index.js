@@ -4,12 +4,14 @@ import urljoin from 'url-join';
 import { getItemFromDb, saveItemToDb} from '../itemFetch';
 import ItemImage from '../ItemImage';
 import SaveIcon from '@material-ui/icons/Save';
+import ItemActionHeader from '../ItemActionHeader';
+import ItemAction from '../ItemAction';
 
 const URL_HOME = "http://localhost:4000/";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      margin: theme.spacing(1),
+      //margin: theme.spacing(1),
   },
   textField:{
     width: '50ch',
@@ -20,6 +22,7 @@ export default function EditItem(
     {selectedItemId, 
      setSelectedItemId,  
      setItemlistModifyed, 
+     itemAction,
      setItemAction,
      ...props}) {
   
@@ -57,7 +60,7 @@ export default function EditItem(
     saveItemToDb(selectedItemId, itemName, itemDescription, localImageFile)
     .then((item)=>{
       setItemlistModifyed((value)=>(!value));
-      setItemAction('');
+      setItemAction('view');
     })
     .catch(error => {
       setSaveItemResultMessage('Save item catch error: '+ error.message);
@@ -67,17 +70,23 @@ export default function EditItem(
   return (
     <div className={classes.root}>    
         
-        <Typography variant="h5" gutterBottom>
-          Edit Item:
-        </Typography>
-        
         <Grid container 
           spacing={3}  
           direction="column"
           justifyContent="flex-start"
-          alignItems="flex-start"
+          alignItems="stretch"
         >      
-
+          <Grid item>
+            <ItemActionHeader 
+              itemName = {itemName}
+              itemDescription= {itemDescription}
+              itemAction= {itemAction}
+              setItemAction={setItemAction}
+              selectedItemId={selectedItemId}
+              setSelectedItemId={setSelectedItemId}
+              setItemlistModifyed={setItemlistModifyed}
+            />
+          </Grid>
           <Grid item>  
             <TextField
               className={classes.textField}
