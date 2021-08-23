@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
   },
   img:{
     width: 450,
-    height: 450
+    height: 450,
+    borderRadius: 5
   }
 }));
 
@@ -82,7 +83,7 @@ export default function ViewItem(
               id="item-description"
               label="Item description"
               multiline
-              rows={10}
+              rows={5}
               value={itemDescription}
               variant="outlined"
               size="small"
@@ -90,7 +91,7 @@ export default function ViewItem(
           </Grid>
 
           <Grid item>
-            <img src={itemUploadedImagePath} alt='' className={classes.img}></img>
+            <img src={itemUploadedImagePath} alt='' className={classes.img}/>
           </Grid>      
 
         </Grid>     

@@ -12,7 +12,8 @@ const useStyles = makeStyles(() => ({
   },
   img: {
     width: 450,
-    height: 450
+    height: 450,
+    borderRadius: 5,
   },
   btn:{
     position: 'absolute',

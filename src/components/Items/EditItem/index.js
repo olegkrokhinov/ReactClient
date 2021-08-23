@@ -105,7 +105,7 @@ export default function EditItem(
               id="item-description"
               label="Item description"
               multiline
-              rows={10}
+              rows={5}
               value={itemDescription}
               placeholder="Enter item description here"
               onChange={handleDescriptionChange}

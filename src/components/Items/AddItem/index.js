@@ -1,4 +1,4 @@
-import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
 import React, { useState} from 'react';
 import { addItemToDb } from '../itemFetch';
 import ItemImage from '../ItemImage';
@@ -84,7 +84,7 @@ export default function AddItem(
               id="item-description"
               label="Item description"
               multiline
-              rows={10}
+              rows={5}
               value={itemDescription}
               placeholder="Enter item description here"
               onChange={handleDescriptionChange}
