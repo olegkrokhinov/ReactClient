@@ -5,6 +5,7 @@ import { getItemsList } from '../itemFetch'
 export default function ItemsList(
     {selectedItemId, 
      setSelectedItemId, 
+     itemAction, 
      setItemAction, 
      itemListModifyed,
      setItemlistModifyed, 
@@ -39,6 +40,7 @@ export default function ItemsList(
                   selectedItemId={selectedItemId} 
                   setSelectedItemId={setSelectedItemId}
                   setItemlistModifyed={setItemlistModifyed}
+                  itemAction={itemAction}
                   setItemAction={setItemAction}
                   setItemlistModifyed={setItemlistModifyed}
                 />

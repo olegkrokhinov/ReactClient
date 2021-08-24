@@ -53,6 +53,7 @@ export default function Items({...props}) {
                   <ItemsList {...props} 
                       selectedItemId ={selectedItemId} 
                       setSelectedItemId={setSelectedItemId} 
+                      itemAction={itemAction}
                       setItemAction = {setItemAction}
                       itemListModifyed = {itemListModifyed}
                       setItemlistModifyed={setItemlistModifyed}

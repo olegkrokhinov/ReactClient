@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import urljoin from 'url-join';
 import ItemActionHeader from '../ItemActionHeader';
 import { getItemFromDb } from '../itemFetch';
+import ItemImage from '../ItemImage';
 
 const URL_HOME = "http://localhost:4000/";
 
@@ -91,7 +92,7 @@ export default function ViewItem(
           </Grid>
 
           <Grid item>
-            <img src={itemUploadedImagePath} alt='' className={classes.img}/>
+            <ItemImage itemUploadedImagePath={itemUploadedImagePath} onlyImage/>
           </Grid>      
 
         </Grid>     
@@ -99,6 +100,4 @@ export default function ViewItem(
   );
   
 };
-
-
  

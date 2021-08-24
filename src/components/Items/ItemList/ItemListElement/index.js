@@ -25,13 +25,14 @@ export default function ItemListElement(
     selectedItemId, 
     setSelectedItemId, 
     setItemAction, 
+    itemAction,
     ...props}){
 
   const classes = useStyles();
   const [mouseOver, setMouseOver] = useState(false); 
 
   function itemIsEditing(){
-    return ((itemSelected()) && (ItemAction === 'edit'))
+    return ((itemSelected()) && (itemAction === 'edit'))
   }
   
   function itemSelected(){

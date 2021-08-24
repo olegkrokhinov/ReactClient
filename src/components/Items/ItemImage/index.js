@@ -17,15 +17,16 @@ const useStyles = makeStyles(() => ({
   },
   btn:{
     position: 'absolute',
-    top: '45%',
-    left: '20%',
+    top: '200px',
+    left: '160px',
     cursor: 'pointer',
   }
 }));
 
 export default function ItemImage(
     {itemUploadedImagePath,
-     setLocalImageFile, 
+     setLocalImageFile,
+     onlyImage=false, 
      ...props}) {
   
   const classes = useStyles();
@@ -46,19 +47,22 @@ export default function ItemImage(
   return (
     <div className={classes.root}>
       <img src={itemImagePreviewUrl} alt = '' className={classes.img}></img>
-    
-      <input accept="image/*" className={classes.input} id="button-file" type="file" onChange={handleItemImageChange}/>
-      <label htmlFor="button-file">
-        <Button startIcon={<PhotoCamera />} 
-                size="small" 
-                variant="contained"
-                aria-label="button-file" 
-                className={classes.btn}
-                component="span"
-        >
-          Upload image
-        </Button>
-       </label>
+      {!onlyImage && 
+        <>
+          <input accept="image/*" className={classes.input} id="button-file" type="file" onChange={handleItemImageChange}/>
+          <label htmlFor="button-file">
+            <Button startIcon={<PhotoCamera />} 
+                    size="small" 
+                    variant="contained"
+                    aria-label="button-file" 
+                    className={classes.btn}
+                    component="span"
+            >
+              Upload image
+            </Button>
+          </label>
+        </>
+      } 
     </div>
            
        
