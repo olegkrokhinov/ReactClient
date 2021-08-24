@@ -3,7 +3,7 @@ import ItemsList from './ItemList';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import ItemAction from './ItemAction';
+import ItemActionSwitch from './ItemActionSwitch';
 
 const useStyles = makeStyles((theme) => (
   {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => (
       minWidth:400,
     },
     addButton: {
-      marginTop: 8,
+      marginTop: theme.spacing(1),
     }
   }
 )); 
@@ -39,14 +39,12 @@ export default function Items({...props}) {
               spacing={1}
               direction = 'row'
               alignItems= 'stretch'
-              
         >
             <Grid item container 
                     direction='column'
                     className={classes.itemsListGridItem}
                     alignItems='flex-start'
-            > 
-            
+            >  
               <Grid item 
                     container 
                     direction='column' 
@@ -70,7 +68,7 @@ export default function Items({...props}) {
             </Grid>
           
             <Grid item xs>
-              <ItemAction
+              <ItemActionSwitch
                 itemAction={itemAction}            
                 selectedItemId={selectedItemId}
                 setSelectedItemId={setSelectedItemId}
