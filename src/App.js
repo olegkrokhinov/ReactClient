@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  content:{
+    marginTop: theme.spacing(9),
+  }
 }));
 
 export default function App() {
@@ -46,7 +49,7 @@ export default function App() {
 
   return (
     <>
-      <AppBar  position="static">
+      <AppBar  position="fixed">
         <Toolbar>
           <IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -85,7 +88,7 @@ export default function App() {
         }
       </SwipeableDrawer>
     
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" className={classes.content}>
         <Switch>
           <Route exact path="/"
             render={ (props) => <Home setAppBarTitle = {setAppBarTitle} {...props} />}>

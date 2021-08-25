@@ -80,6 +80,7 @@ export default function Items({...props}) {
               </Grid>
             
               <Grid item xs>
+         
                 <ItemActionSwitch {...props}
                   selectedItemId={selectedItemId}
                   setSelectedItemId={setSelectedItemId}
@@ -87,6 +88,7 @@ export default function Items({...props}) {
                   itemAction={itemAction}            
                   setItemAction={setItemAction}
                 /> 
+              
               </Grid>
 
           </Grid>
