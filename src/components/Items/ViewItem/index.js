@@ -8,9 +8,7 @@ import ItemImage from '../ItemImage';
 const URL_HOME = "http://localhost:4000/";
 
 const useStyles = makeStyles((theme) => ({
-  root:{
-    //margin: theme.spacing(1),
-  },
+
   textField:{
     width: '50ch',
   },
@@ -21,14 +19,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ViewItem(
-    { selectedItemId, 
-      setSelectedItemId,
-      setItemAction,
-      itemAction,
-      setItemlistModifyed, 
-
-     ...props}) {
+export default function ViewItem(props) {
   
   const [itemName, setItemName] = useState(''); 
   const [itemDescription, setItemDescription] = useState(''); 
@@ -37,7 +28,7 @@ export default function ViewItem(
   const classes = useStyles();
 
   useEffect(()=>{
-    getItemFromDb(selectedItemId)
+    getItemFromDb(props.selectedItemId)
     .then (item => {
       setItemName(item.name);
       setItemDescription(item.description);
@@ -46,57 +37,54 @@ export default function ViewItem(
     })
     .catch(err => {
     })  
-  }, [selectedItemId]);
+  }, [props.selectedItemId]);
 
   return (
-    <div className={classes.root}>    
-        <Grid container 
-          spacing={3}  
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="stretch"
-        >
+    <>    
+      <Grid container 
+        spacing={3}  
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="stretch"
+      >
+
         <Grid item>
-          <ItemActionHeader
+          <ItemActionHeader {...props}
             itemName={itemName}
             itemDescription={itemDescription}
-            itemAction={itemAction}
-            setItemAction={setItemAction}
-            selectedItemId={selectedItemId}
-            setSelectedItemId={setSelectedItemId}
-            setItemlistModifyed={setItemlistModifyed}
           />
         </Grid>
-          <Grid item>  
-            <TextField
-              className={classes.textField}
-              id="item-name"
-              label="Item name"
-              value={itemName}
-              variant="outlined"
-              size="small"
-            />            
-          </Grid>
 
-          <Grid item>
-            <TextField
-              className={classes.textField}
-              id="item-description"
-              label="Item description"
-              multiline
-              rows={5}
-              value={itemDescription}
-              variant="outlined"
-              size="small"
-            />            
-          </Grid>
+        <Grid item>  
+          <TextField
+            className={classes.textField}
+            id="item-name"
+            label="Item name"
+            value={itemName}
+            variant="outlined"
+            size="small"
+          />            
+        </Grid>
 
-          <Grid item>
-            <ItemImage itemUploadedImagePath={itemUploadedImagePath} onlyImage/>
-          </Grid>      
+        <Grid item>
+          <TextField
+            className={classes.textField}
+            id="item-description"
+            label="Item description"
+            multiline
+            rows={5}
+            value={itemDescription}
+            variant="outlined"
+            size="small"
+          />            
+        </Grid>
 
-        </Grid>     
-    </div>
+        <Grid item>
+          <ItemImage {...props} itemUploadedImagePath={itemUploadedImagePath} onlyImage/>
+        </Grid>      
+
+      </Grid>     
+    </>
   );
   
 };

@@ -20,9 +20,6 @@ import { logOut, authenticatedUser,  addUserIsAuthentificatedListener} from './u
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -49,61 +46,61 @@ export default function App() {
 
   return (
     <>
-        <AppBar  position="static">
-          <Toolbar>
-            <IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title} >
-              {appBarTitle}
-            </Typography>
-          
-            {!userIsAuthenticated && 
-              <>
-              <Button color="inherit"  component={Link} to="/register">Register</Button>
-              <Button color="inherit"  component={Link} to="/login">Login</Button>
-              </>
-            }
-            {userIsAuthenticated &&
-              <Button color="inherit"  component={Link} to="/" onClick={logOut}>LogOut</Button>
-            } 
-          </Toolbar>
-        </AppBar>
-
-        <SwipeableDrawer
-            anchor = 'left'
-            open = {drawer}
-            onClose={toggleDrawer('left', false)}
-            onOpen={toggleDrawer('left', true)}
-          >
-          <ListItem button key={1} component={Link} to="/" onClick={()=>setDrawer(false)}>
-            <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
-            <ListItemText primary='Home' />
-          </ListItem>
-          {userIsAuthenticated && 
-            <ListItem button key={2} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
-              <ListItemIcon><ListRoundedIcon /></ListItemIcon>
-              <ListItemText primary='Items' />
-            </ListItem> 
+      <AppBar  position="static">
+        <Toolbar>
+          <IconButton  onClick={toggleDrawer('left', true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title} >
+            {appBarTitle}
+          </Typography>
+        
+          {!userIsAuthenticated && 
+            <>
+            <Button color="inherit"  component={Link} to="/register">Register</Button>
+            <Button color="inherit"  component={Link} to="/login">Login</Button>
+            </>
           }
-        </SwipeableDrawer>
-      
-        <Container maxWidth="xl">
-          <Switch>
-            <Route exact path="/"
-              render={ (props) => <Home setAppBarTitle = {setAppBarTitle} {...props} />}>
-            </Route>
-            <Route exact path="/login"
-                render={ (props) => <UserLogin {...props} />}>
-            </Route>
-            <Route exact path="/register"
-              render={ (props) => <UserRegister {...props} />}>
-            </Route>
-            <Route exact path="/Items"
-              render={ (props) => <Items setAppBarTitle = {setAppBarTitle} {...props} />}>
-            </Route>
-          </Switch>
-        </Container>    
+          {userIsAuthenticated &&
+            <Button color="inherit"  component={Link} to="/" onClick={logOut}>LogOut</Button>
+          } 
+        </Toolbar>
+      </AppBar>
+
+      <SwipeableDrawer
+          anchor = 'left'
+          open = {drawer}
+          onClose={toggleDrawer('left', false)}
+          onOpen={toggleDrawer('left', true)}
+        >
+        <ListItem button key={1} component={Link} to="/" onClick={()=>setDrawer(false)}>
+          <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
+          <ListItemText primary='Home' />
+        </ListItem>
+        {userIsAuthenticated && 
+          <ListItem button key={2} component={Link} to="/items"  onClick={()=>setDrawer(false)}>
+            <ListItemIcon><ListRoundedIcon /></ListItemIcon>
+            <ListItemText primary='Items' />
+          </ListItem> 
+        }
+      </SwipeableDrawer>
+    
+      <Container maxWidth="xl">
+        <Switch>
+          <Route exact path="/"
+            render={ (props) => <Home setAppBarTitle = {setAppBarTitle} {...props} />}>
+          </Route>
+          <Route exact path="/login"
+              render={ (props) => <UserLogin setAppBarTitle = {setAppBarTitle} {...props} />}>
+          </Route>
+          <Route exact path="/register"
+            render={ (props) => <UserRegister setAppBarTitle = {setAppBarTitle} {...props} />}>
+          </Route>
+          <Route exact path="/Items"
+            render={ (props) => <Items setAppBarTitle = {setAppBarTitle} {...props} />}>
+          </Route>
+        </Switch>
+      </Container>    
 
     </>
 

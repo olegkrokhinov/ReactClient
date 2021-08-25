@@ -5,9 +5,6 @@ import { deleteItemFromDb } from '../itemFetch';
 
 const useStyles = makeStyles((theme) => (
 {
-  root: {
-    //width: 165,
-  },
   btn: {
     minWidth: 50,
     maxWidth: 50,
@@ -22,21 +19,11 @@ const useStyles = makeStyles((theme) => (
   }
 }));
 
-export default function ItemActionHeader (
-  {  
-    itemName,
-    itemDescription,
-    itemAction,  
-    setItemAction,
-    selectedItemId,
-    setSelectedItemId,
-    setItemlistModifyed,
-    ...props}) {
+export default function ItemActionHeader (props) {
 
-    const classes = useStyles();
+  const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
-
   const isMenuOpen = Boolean(anchorEl)
   
   function handleMenuOpen(event) {
@@ -49,57 +36,60 @@ export default function ItemActionHeader (
 
   function handleEdit(event) {
     setAnchorEl(null);
-    setItemAction('edit');
+    props.setItemAction('edit');
   }
 
   function handleDelete(event) {
     setAnchorEl(null);
-    deleteItemFromDb(selectedItemId)
+    deleteItemFromDb(props.selectedItemId)
       .then(() => {
-        setItemlistModifyed((value) => (!value));
-        setSelectedItemId('');
-        setItemAction('')
+        props.setItemlistModifyed((value) => (!value));
+        props.setSelectedItemId('');
+        props.setItemAction('')
       })
       .catch()
   }
 
-  return <>
-              <Grid container className={classes.itemActionHeader}>
-                <Grid item container xs direction='column' alignContent='flex-start' justifyContent='center'>
-                  <Grid item className={classes.content}>
-                    <Typography variant='h6'>
-                      {itemName}
-                    </Typography>
-                  </Grid>
-                  <Grid item className={classes.content}>
-                    <Typography >
-                      {itemDescription}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item className={classes.btn} container alignContent='center'>
-                {((itemAction === 'edit') || (itemAction === 'view')) &&
-                  <IconButton aria-label="item actions menu" onClick={handleMenuOpen}>
-                    <MoreVert id='menu-icon'/>
-                  </IconButton>
-                }
-                </Grid>
-              </Grid>
-          
-            <Menu
-              anchorEl={anchorEl}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-              id='item-actions-menu'
-              keepMounted
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              open={isMenuOpen}
-              onClose={handleMenuClose}
-            >
-              {(itemAction==='view')&&
-                <MenuItem onClick={handleEdit}>Edit</MenuItem>
-              }
-              <MenuItem onClick={handleDelete}>Delete</MenuItem>
-            </Menu>  
-           
-         </>
+  return (
+    <>
+      <Grid container className={classes.itemActionHeader}>
+        
+        <Grid item container xs direction='column' alignContent='flex-start' justifyContent='center'>
+          <Grid item className={classes.content}>
+            <Typography variant='h6'>
+              {props.itemName}
+            </Typography>
+          </Grid>
+          <Grid item className={classes.content}>
+            <Typography >
+              {props.itemDescription}
+            </Typography>
+          </Grid>
+        </Grid>
+        
+        <Grid item className={classes.btn} container alignContent='center'>
+          {((props.itemAction === 'edit') || (props.itemAction === 'view')) &&
+            <IconButton aria-label="item actions menu" onClick={handleMenuOpen}>
+              <MoreVert id='menu-icon'/>
+            </IconButton>
+          }
+        </Grid>
+      </Grid>
+    
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id='item-actions-menu'
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      >
+        {(props.itemAction==='view')&&
+          <MenuItem onClick={handleEdit}>Edit</MenuItem>
+        }
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+      </Menu>  
+    </>
+  )
 };

@@ -9,21 +9,12 @@ import ItemActionHeader from '../ItemActionHeader';
 const URL_HOME = "http://localhost:4000/";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-      //margin: theme.spacing(1),
-  },
   textField:{
     width: '50ch',
   }
 }));
 
-export default function EditItem(
-    {selectedItemId, 
-     setSelectedItemId,  
-     setItemlistModifyed, 
-     itemAction,
-     setItemAction,
-     ...props}) {
+export default function EditItem(props) {
   
   const classes = useStyles();    
 
@@ -34,7 +25,7 @@ export default function EditItem(
   const [saveItemResultMessage, setSaveItemResultMessage] = useState(''); 
 
   useEffect(()=>{
-    getItemFromDb(selectedItemId)
+    getItemFromDb(props.selectedItemId)
     .then (item => {
       setItemName(item.name);
       setItemDescription(item.description);
@@ -44,7 +35,7 @@ export default function EditItem(
     .catch(err => {
     
     })  
-  }, [selectedItemId]);
+  }, [props.selectedItemId]);
 
   function handleNameChange(event) {
     setItemName(event.target.value);
@@ -56,10 +47,10 @@ export default function EditItem(
   
   function handleSubmit(event) {
     event.preventDefault();
-    saveItemToDb(selectedItemId, itemName, itemDescription, localImageFile)
+    saveItemToDb(props.selectedItemId, itemName, itemDescription, localImageFile)
     .then((item)=>{
-      setItemlistModifyed((value)=>(!value));
-      setItemAction('view');
+     props.setItemlistModifyed((value)=>(!value));
+      props.setItemAction('view');
     })
     .catch(error => {
       setSaveItemResultMessage('Save item catch error: '+ error.message);
@@ -67,71 +58,68 @@ export default function EditItem(
   }
 
   return (
-    <div className={classes.root}>    
+    <>    
         
-        <Grid container 
-          spacing={3}  
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="stretch"
-        >      
-          <Grid item>
-            <ItemActionHeader 
-              itemName = {itemName}
-              itemDescription= {itemDescription}
-              itemAction= {itemAction}
-              setItemAction={setItemAction}
-              selectedItemId={selectedItemId}
-              setSelectedItemId={setSelectedItemId}
-              setItemlistModifyed={setItemlistModifyed}
-            />
-          </Grid>
-          <Grid item>  
-            <TextField
-              className={classes.textField}
-              id="item-name"
-              label="Item name"
-              value={itemName}
-              placeholder="Enter item name here"
-              onChange={handleNameChange}
-              variant="outlined"
-              size="small"
-            />            
-          </Grid>
+      <Grid container 
+        spacing={3}  
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="stretch"
+      >      
+        
+        <Grid item>
+          <ItemActionHeader {...props}
+            itemName = {itemName}
+            itemDescription= {itemDescription}
+          />
+        </Grid>
+        
+        <Grid item>  
+          <TextField
+            className={classes.textField}
+            id="item-name"
+            label="Item name"
+            value={itemName}
+            placeholder="Enter item name here"
+            onChange={handleNameChange}
+            variant="outlined"
+            size="small"
+          />            
+        </Grid>
 
-          <Grid item>
-            <TextField
-              className={classes.textField}
-              id="item-description"
-              label="Item description"
-              multiline
-              rows={5}
-              value={itemDescription}
-              placeholder="Enter item description here"
-              onChange={handleDescriptionChange}
-              variant="outlined"
-              size="small"
-            />            
-          </Grid>
+        <Grid item>
+          <TextField
+            className={classes.textField}
+            id="item-description"
+            label="Item description"
+            multiline
+            rows={5}
+            value={itemDescription}
+            placeholder="Enter item description here"
+            onChange={handleDescriptionChange}
+            variant="outlined"
+            size="small"
+          />            
+        </Grid>
 
-          <Grid item>           
-              <ItemImage itemUploadedImagePath={itemUploadedImagePath} setLocalImageFile={setLocalImageFile}/>
-          </Grid>      
+        <Grid item>           
+            <ItemImage {...props} itemUploadedImagePath={itemUploadedImagePath} setLocalImageFile={setLocalImageFile}/>
+        </Grid>      
 
-          <Grid item>
-            <Button startIcon={<SaveIcon />} onClick={handleSubmit} variant="outlined" >
-              Save
-            </Button>
-          </Grid>
-   
-        </Grid>     
+        <Grid item>
+          <Button startIcon={<SaveIcon />} onClick={handleSubmit} variant="outlined" >
+            Save
+          </Button>
+        </Grid>
 
-        {saveItemResultMessage &&  
-          <div>
-            {saveItemResultMessage}
-          </div>
-        }
-    </div>
+      </Grid>     
+
+      {saveItemResultMessage &&  
+        <div>
+          {saveItemResultMessage}
+        </div>
+      }
+    </>
   );
   
 };
