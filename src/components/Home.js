@@ -1,28 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function Home({currentUser, setCurrentUser},  ...props) {
-    
-console.log(currentUser);
+import { authenticatedUser } from '../userAuth';
+import { addUserIsAuthentificatedListener, delFromUserIsAuthentificatedListeners } from '../userAuth';
+
+export default function Home(...props) {
+
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(!(authenticatedUser.userAccessToken===''));
+  addUserIsAuthentificatedListener(setUserIsAuthenticated);
+
+  useEffect(()=>{
+    return ()=>{
+       delFromUserIsAuthentificatedListeners(setUserIsAuthenticated);      
+    }
+  },[])
 
   return (
     <div>
-      <h3>Home</h3>
-      {currentUser && 
+      <h3>Home page</h3>
+      {userIsAuthenticated && 
           <div>
-              <div>Hello, {currentUser.userLogin}!</div>
+              <div>Hello, {authenticatedUser.userLogin}!</div>
               <div>User roles: </div> 
-              {currentUser.userRoles.map((role, index)=>{
-                 return <div>{role.name}</div> 
+              {authenticatedUser.userRoles.map((role, index)=>{
+                 return <div key={index}>{role.name}</div> 
               })}
           </div>
       }
-      {!currentUser && 
+      {!userIsAuthenticated && 
           <div>
               Hello Guest!
+              To have acces to items please login.
           </div>
 
       }
     </div>
   );
-  };
+};
  
